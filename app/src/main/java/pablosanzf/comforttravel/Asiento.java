@@ -16,9 +16,14 @@ public class Asiento implements Serializable {
     private double temperatura;
     private double luminosidad;
 
+    public Asiento(){
+        identificador = "";
+        nombreModo = "";
+    }
 
     public Asiento(String identificador) {
         this.identificador = identificador;
+        nombreModo = "";
     }
 
     public Asiento(String identificador, String nombreModo, double rotacionCabeza, double rotacionAsiento, double rotacionReposapies, double temperatura, double luminosidad) {
