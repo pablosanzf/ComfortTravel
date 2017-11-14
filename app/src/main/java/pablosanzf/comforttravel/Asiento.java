@@ -17,13 +17,23 @@ public class Asiento implements Serializable {
     private double luminosidad;
 
     public Asiento(){
-        identificador = "";
-        nombreModo = "";
+        identificador = new String("");
+        nombreModo = new String("");
+        rotacionCabeza = new Double(0.0);
+        rotacionAsiento = new Double(0.0);
+        rotacionReposapies = new Double (0.0);
+        temperatura = new Double (0.0);
+        luminosidad = new Double (0.0);
     }
 
     public Asiento(String identificador) {
         this.identificador = identificador;
-        nombreModo = "";
+        nombreModo = new String("");
+        rotacionCabeza = new Double(0.0);
+        rotacionAsiento = new Double(0.0);
+        rotacionReposapies = new Double (0.0);
+        temperatura = new Double (0.0);
+        luminosidad = new Double (0.0);
     }
 
     public Asiento(String identificador, String nombreModo, double rotacionCabeza, double rotacionAsiento, double rotacionReposapies, double temperatura, double luminosidad) {

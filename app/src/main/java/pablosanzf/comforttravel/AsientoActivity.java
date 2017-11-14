@@ -26,20 +26,29 @@ public class AsientoActivity extends Activity implements
 
 
     private ArrayList<Asiento> perfilesDeAsiento = new ArrayList<Asiento>();
-    private static final  Asiento NOCHE = new Asiento("NOCHE", "Noche", 10,10 ,10,10,10);
-    private static final  Asiento LECTURA = new Asiento("LECTURA", "Lectura", 20,20 ,20,20,20);
-    private static final  Asiento SEGURIDAD = new Asiento("SEGURIDAD", "Seguridad", 30,30 ,30,30,30);
+    private static final  Asiento NOCHE = new Asiento(new String("NOCHE"), new String("Noche"), 10,10 ,10,10,10);
+    private static final  Asiento LECTURA = new Asiento(new String("LECTURA"), new String("Lectura"), 20,20 ,20,20,20);
+    private static final  Asiento SEGURIDAD = new Asiento(new String("SEGURIDAD"), new String("Seguridad"), 30,30 ,30,30,30);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        perfilesDeAsiento.add(SEGURIDAD);
+        perfilesDeAsiento.add(NOCHE);
+        perfilesDeAsiento.add(LECTURA);
+
+
         //Aquí debería hacerse la recogida del intent desde la fase anterior de sincornización con el asiento
         this.asiento = new Asiento("", " ", 0,0,0,0,0);
 
+        System.err.println("he llegado hasta aqui");
 
         setContentView(R.layout.activity_asiento);
+
+
+        System.err.println("he llegado hasta aqui- 2");
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
@@ -70,7 +79,7 @@ public class AsientoActivity extends Activity implements
      */
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private Context getActionBarThemedContextCompat() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             return getActionBar().getThemedContext();
         } else {
             return this;
@@ -152,8 +161,11 @@ public class AsientoActivity extends Activity implements
                 i++;
             }
         }
-        if (encontrado) return respuesta;
-        else return null;
+        if (encontrado){
+            return respuesta;
+        }else{
+            return null;
+        }
     }
 
 }
