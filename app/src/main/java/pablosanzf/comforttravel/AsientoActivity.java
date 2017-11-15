@@ -41,7 +41,7 @@ public class AsientoActivity extends Activity implements
 
 
         //Aquí debería hacerse la recogida del intent desde la fase anterior de sincornización con el asiento
-        this.asiento = new Asiento("", " ", 0,0,0,0,0);
+        this.asiento = new Asiento("", "Manual", 0,0,0,0,0);
 
         System.err.println("he llegado hasta aqui");
 
