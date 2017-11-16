@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">ComfortTravel</string>
-    <string-array name="perfiles">
-        <item >Seguridad</item>
-        <item >Lectura</item>
-        <item >Noche</item>
-    </string-array>
+    <string name="dialog_borrar_pregunta">¿Desea borrar el perfil?</string>
+    <string name="hint_añadir_perfil">Nuevo perfil</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
 </resources>
