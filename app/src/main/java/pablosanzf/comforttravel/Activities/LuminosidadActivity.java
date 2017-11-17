@@ -2,7 +2,11 @@ package pablosanzf.comforttravel.Activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,7 +35,7 @@ public class LuminosidadActivity extends Activity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_luminosidad);
@@ -78,23 +82,40 @@ public class LuminosidadActivity extends Activity {
             }
         });
 
-        editLuminosidadSeleccioanda.setOnEditorActionListener({
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                    actionId == EditorInfo.IME_ACTION_DONE ||
-                    event.getAction() == KeyEvent.ACTION_DOWN &&
-                            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                if (!event.isShiftPressed()) {
-                    // the user is done typing.
 
-                    return true; // consume.
+
+        editLuminosidadSeleccioanda.setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                                actionId == EditorInfo.IME_ACTION_DONE ||
+                                event.getAction() == KeyEvent.ACTION_DOWN &&
+                                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                            // the user is done typing.
+                            Double value = Double.parseDouble(editLuminosidadSeleccioanda.getText().toString());
+                            if (value >= MAX_lUMINOSIDAD) {
+                                editLuminosidadSeleccioanda.setText("MAX");
+                                asiento.setLuminosidad(MAX_lUMINOSIDAD);
+                            } else {
+                                if (value <= MIN_LUMINOSIDAD) {
+                                    editLuminosidadSeleccioanda.setText("MIN");
+                                    asiento.setLuminosidad(MIN_LUMINOSIDAD);
+                                } else {
+                                    editLuminosidadSeleccioanda.setText(value.toString());
+                                    asiento.setLuminosidad(value);
+
+                                }
+                            }
+                            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                            return true; // consume.
+                        }
+                        return false; // pass on to other listeners.
+                    }
                 }
-            }
-            return false; // pass on to other listeners.
-        }
+        );
 
-        });
 
     }
 
@@ -118,11 +139,12 @@ public class LuminosidadActivity extends Activity {
      */
     private void recibirLuminosidad() {
         Toast.makeText(getApplicationContext(), "Recibir la luminosidad", Toast.LENGTH_SHORT).show();
-        textLuminosidadActual.setText(String.valueOf( new Random().nextInt(150)));
+        textLuminosidadActual.setText(String.valueOf(new Random().nextInt(150)));
     }
 
     /**
      * Metodo que debe modificar la luminosidad del aire
+     *
      * @param i grados que sube o baja
      */
     private void modificarValorAire(int i) {
