@@ -19,9 +19,12 @@
     <string name="cancelar">Cancelar </string>
     <string name="borrar_manual">No se puede borrar el perfil manual </string>
     <string name="asistencia">¿Quiere que un personal de vuelo le atienda? </string>
-    <string name="temperatura_actual">La temperatura actual es:</string>
+    <string name="temperatura_actual">La temperatura actual:</string>
     <string name="grados">ºC</string>
     <string name="selecciona_temp">Selecciona la temperatura</string>
+    <string name="luminosidad_actual">La luminosidad actual:</string>
+    <string name="selecciona_lum">Selecciona la luminosidad</string>
+    <string name="candelas"> cd</string>
 
 
 </resources>

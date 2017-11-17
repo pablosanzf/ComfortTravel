@@ -1,4 +1,4 @@
-package pablosanzf.comforttravel;
+package pablosanzf.comforttravel.Activities;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -18,12 +18,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ShareActionProvider;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Random;
+
+import pablosanzf.comforttravel.Domain.Asiento;
+import pablosanzf.comforttravel.R;
+import pablosanzf.comforttravel.Persistance.SQLiteAsientoHelper;
 
 public class AsientoActivity extends Activity implements
         ActionBar.OnNavigationListener{
@@ -33,9 +34,9 @@ public class AsientoActivity extends Activity implements
     private Asiento asiento;
 
     private ArrayList<Asiento> perfilesDeAsiento;
-    private static final  Asiento NOCHE = new Asiento(new String("NOCHE"), new String("Noche"), 10,10 ,10,10,10);
+    private static final  Asiento NOCHE = new Asiento(new String("NOCHE"), new String("Noche"), 10,10 ,10,14,100);
     private static final  Asiento LECTURA = new Asiento(new String("LECTURA"), new String("Lectura"), 20,20 ,20,20,20);
-    private static final  Asiento SEGURIDAD = new Asiento(new String("SEGURIDAD"), new String("Seguridad"), 30,30 ,30,30,30);
+    private static final  Asiento SEGURIDAD = new Asiento(new String("SEGURIDAD"), new String("Seguridad"), 30,30 ,30,24,30);
 
     private ArrayList<String>  listaDePerfiles;
 
@@ -56,7 +57,7 @@ public class AsientoActivity extends Activity implements
         super.onCreate(savedInstanceState);
 
         //Aquí debería hacerse la recogida del intent desde la fase anterior de sincornización con el asiento
-        this.asiento = new Asiento("", "Manual", 0,0,0,0,0);
+        this.asiento = new Asiento("", "Manual", 0,0,0,22,86);
 
         crearListaAsientos();
 
@@ -107,11 +108,20 @@ public class AsientoActivity extends Activity implements
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AsientoActivity.this, TemperaturaActivity.class);
-                intent.putExtra("asiento", asiento);
+                intent.putExtra("asiento_temp", asiento);
                 startActivity(intent);
             }
         });
 
+        imagenLuminosidad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Este es el asiiento que mando a luminosidadactivity: " + asiento.toString());
+                Intent intent = new Intent(AsientoActivity.this, LuminosidadActivity.class);
+                intent.putExtra("asiento_lum", asiento);
+                startActivity(intent);
+            }
+        });
 
     }
 

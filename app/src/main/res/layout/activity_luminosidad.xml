@@ -14,20 +14,20 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/temperatura_actual"
+            android:id="@+id/luminosidad_actual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="@string/temperatura_actual"
+            android:layout_weight="1"
+            android:text="@string/luminosidad_actual"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/grados_actuales"
+            android:id="@+id/cd_actuales"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.001"
+            android:layout_weight="1"
             android:paddingVertical="30dp"
             android:text="20"
             android:textAlignment="center"
@@ -35,14 +35,14 @@
             android:textSize="26sp" />
 
         <TextView
-            android:id="@+id/unidad_grados"
+            android:id="@+id/unidad_candelas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.001"
-            android:text="@string/grados"
+            android:layout_weight="1"
+            android:text="@string/candelas"
             android:textAlignment="textStart"
             android:textColor="@color/colorPrimary"
-            android:textSize="26sp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="320dp"
             android:layout_weight="1"
-            android:src="@drawable/temperature" />
+            android:src="@drawable/ic_highlight_primary_48dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -65,55 +65,58 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/selecciona_temperatura"
+            android:id="@+id/selecciona_luminosidad"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="10"
+            android:layout_weight="1.5"
             android:paddingVertical="18dp"
-            android:text="@string/selecciona_temp"
+            android:text="@string/selecciona_lum"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/temperatura_insertada"
+        <EditText
+            android:id="@+id/luminosidad_insertada"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.001"
+            android:layout_weight="3"
+            android:background="@android:color/transparent"
+            android:ems="10"
             android:gravity="center"
+            android:inputType="numberDecimal"
             android:text="MAX"
-            android:textAlignment="textEnd"
+            android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/unidad_grados_2"
+            android:id="@+id/unidad_candelas_2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.001"
             android:gravity="center"
-            android:text="@string/grados"
+            android:text="cd"
             android:textAlignment="textEnd"
             android:textColor="@color/colorPrimary"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="18"
+            android:layout_weight="3.5"
             android:gravity="center"
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/mas_temperatura"
+                android:id="@+id/mas_luminosidad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="+" />
 
             <Button
-                android:id="@+id/menos_temperatura"
+                android:id="@+id/menos_luminosidad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

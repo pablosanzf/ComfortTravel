@@ -1,4 +1,4 @@
-package pablosanzf.comforttravel;
+package pablosanzf.comforttravel.Persistance;
 
 import android.content.Context;
 
@@ -11,6 +11,8 @@ import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
+
+import pablosanzf.comforttravel.Domain.Asiento;
 
 /**
  * Created by master on 10/11/2017.

@@ -1,4 +1,4 @@
-package pablosanzf.comforttravel;
+package pablosanzf.comforttravel.Persistance;
 
 
         import android.content.ContentValues;
@@ -6,9 +6,10 @@ package pablosanzf.comforttravel;
         import android.database.Cursor;
         import android.database.sqlite.SQLiteDatabase;
         import android.database.sqlite.SQLiteOpenHelper;
-        import android.util.Log;
 
         import java.util.ArrayList;
+
+        import pablosanzf.comforttravel.Domain.Asiento;
 
 /**
  * Created by ivazquez on 16/10/2015.
@@ -99,7 +100,7 @@ public class SQLiteAsientoHelper extends SQLiteOpenHelper{
             Double rotacionCabeza = Double.parseDouble(cursor.getString(2));
             Double rotacionAsiento = Double.parseDouble(cursor.getString(3));
             Double rotacionPies = Double.parseDouble(cursor.getString(4));
-            Double temperatura = Double.parseDouble(cursor.getString(5));
+            int temperatura = Integer.parseInt(cursor.getString(5));
             Double luminosidad = Double.parseDouble(cursor.getString(6));
 
             as.add(new Asiento(id, perfil, rotacionCabeza,rotacionAsiento,rotacionPies,temperatura,luminosidad));

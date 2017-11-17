@@ -1,4 +1,4 @@
-package pablosanzf.comforttravel;
+package pablosanzf.comforttravel.Domain;
 
 import java.io.Serializable;
 
@@ -13,16 +13,16 @@ public class Asiento implements Serializable {
     private double rotacionCabeza;
     private double rotacionAsiento;
     private double rotacionReposapies;
-    private double temperatura;
+    private int temperatura;
     private double luminosidad;
 
     public Asiento(){
-        identificador = new String("");
-        nombreModo = new String("");
+        identificador = new String(" ");
+        nombreModo = new String(" ");
         rotacionCabeza = new Double(0.0);
         rotacionAsiento = new Double(0.0);
         rotacionReposapies = new Double (0.0);
-        temperatura = new Double (0.0);
+        temperatura = 0;
         luminosidad = new Double (0.0);
     }
 
@@ -32,11 +32,11 @@ public class Asiento implements Serializable {
         rotacionCabeza = new Double(0.0);
         rotacionAsiento = new Double(0.0);
         rotacionReposapies = new Double (0.0);
-        temperatura = new Double (0.0);
+        temperatura =  0;
         luminosidad = new Double (0.0);
     }
 
-    public Asiento(String identificador, String nombreModo, double rotacionCabeza, double rotacionAsiento, double rotacionReposapies, double temperatura, double luminosidad) {
+    public Asiento(String identificador, String nombreModo, double rotacionCabeza, double rotacionAsiento, double rotacionReposapies, int temperatura, double luminosidad) {
 
         this.identificador = identificador;
         this.nombreModo = nombreModo;
@@ -101,11 +101,11 @@ public class Asiento implements Serializable {
         this.rotacionReposapies = rotacionReposapies;
     }
 
-    public double getTemperatura() {
+    public int getTemperatura() {
         return temperatura;
     }
 
-    public void setTemperatura(double temperatura) {
+    public void setTemperatura(int temperatura) {
         this.temperatura = temperatura;
     }
 
