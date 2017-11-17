@@ -1,7 +1,27 @@
 <resources>
     <string name="app_name">ComfortTravel</string>
-    <string name="dialog_borrar_pregunta">¿Desea borrar el perfil?</string>
+    <string name="dialog_borrar_pregunta">¿Desea borrar el perfil</string>
     <string name="hint_añadir_perfil">Nuevo perfil</string>
     <string name="si">Si</string>
     <string name="no">No</string>
+    <string name="mns_com_1">Prueba a viajar de esta manera</string>
+    <string name="mns_com_2">Reposapies: </string>
+    <string name="mns_oom_3">Respaldo: </string>
+    <string name="mns_com_4">Reposacabezas: </string>
+    <string name="mns_com_5">Luminosidad: </string>
+    <string name="mns_com_6">Temperatura: </string>
+    <string name="mns_com_7">¡Cómo mola viajar con ComfortTravel!"</string>
+    <string name="tit_dia_guardar">Nombre del nuevo perfil </string>
+    <string name="hecho">Hecho </string>
+    <string name="vacio">Inserte un valor </string>
+    <string name="existe_perfil">Ya existe un perfil con ese nombre </string>
+    <string name="perfil_añadido">Perfil añadido </string>
+    <string name="cancelar">Cancelar </string>
+    <string name="borrar_manual">No se puede borrar el perfil manual </string>
+    <string name="asistencia">¿Quiere que un personal de vuelo le atienda? </string>
+    <string name="temperatura_actual">La temperatura actual es:</string>
+    <string name="grados">ºC</string>
+    <string name="selecciona_temp">Selecciona la temperatura</string>
+
+
 </resources>

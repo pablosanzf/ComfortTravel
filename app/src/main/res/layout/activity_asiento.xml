@@ -66,12 +66,12 @@
             android:src="@drawable/ic_gps_fixed_primary_48dp" />
 
         <ImageView
-            android:id="@+id/informacion"
+            android:id="@+id/asistencia"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_weight="1"
             android:contentDescription="informacion image"
-            android:src="@drawable/ic_info_outline_primary_48dp" />
+            android:src="@drawable/valet" />
 
     </LinearLayout>
 

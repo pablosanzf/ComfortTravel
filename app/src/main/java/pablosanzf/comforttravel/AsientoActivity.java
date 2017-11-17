@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,15 +32,23 @@ public class AsientoActivity extends Activity implements
 
     private Asiento asiento;
 
-
-    private ArrayList<Asiento> perfilesDeAsiento = new ArrayList<Asiento>();
+    private ArrayList<Asiento> perfilesDeAsiento;
     private static final  Asiento NOCHE = new Asiento(new String("NOCHE"), new String("Noche"), 10,10 ,10,10,10);
     private static final  Asiento LECTURA = new Asiento(new String("LECTURA"), new String("Lectura"), 20,20 ,20,20,20);
     private static final  Asiento SEGURIDAD = new Asiento(new String("SEGURIDAD"), new String("Seguridad"), 30,30 ,30,30,30);
 
-    private ArrayList<String>  listaDePerfiles = new ArrayList<String>();
+    private ArrayList<String>  listaDePerfiles;
+
+    private SQLiteAsientoHelper sah = new SQLiteAsientoHelper(AsientoActivity.this);
 
     ArrayAdapter<String> listnav;
+
+    private ImageView imagenAsiento;
+    private ImageView imagenTemperatura;
+    private ImageView imagenLuminosidad;
+    private ImageView imagenComida;
+    private ImageView imagenLocalizacion;
+    private ImageView imagenAsistencia;
 
 
     @Override
@@ -49,13 +58,22 @@ public class AsientoActivity extends Activity implements
         //Aquí debería hacerse la recogida del intent desde la fase anterior de sincornización con el asiento
         this.asiento = new Asiento("", "Manual", 0,0,0,0,0);
 
-        perfilesDeAsiento.add(asiento);
+        crearListaAsientos();
 
+        /*sah.borrarTodosLosasientos();
+        sah.putAsiento(asiento);
+        sah.putAsiento(SEGURIDAD);
+        sah.putAsiento(NOCHE);
+        sah.putAsiento(LECTURA);
+
+        perfilesDeAsiento.add(asiento);
         perfilesDeAsiento.add(SEGURIDAD);
         perfilesDeAsiento.add(NOCHE);
         perfilesDeAsiento.add(LECTURA);
 
-        listaDePerfiles = llenarArrayConPerfiles(perfilesDeAsiento);
+
+        perfilesDeAsiento = sah.getAsientos();
+        listaDePerfiles = llenarArrayConPerfiles(perfilesDeAsiento);*/
 
         setContentView(R.layout.activity_asiento);
 
@@ -71,13 +89,45 @@ public class AsientoActivity extends Activity implements
         onNavigationItemSelected(0,0);
         asiento = buscarEnArray(listaDePerfiles.get(0));
 
+        imagenAsiento = (ImageView) findViewById(R.id.asiento);
+        imagenTemperatura = (ImageView) findViewById(R.id.temperatura);
+        imagenLuminosidad =  (ImageView) findViewById(R.id.linterna);
+        imagenComida = (ImageView) findViewById(R.id.comida);
+        imagenLocalizacion= (ImageView) findViewById(R.id.localizacion);
+        imagenAsistencia = (ImageView) findViewById(R.id.asistencia);
+
+        imagenAsistencia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llamarAsistencia();
+            }
+        });
+
+        imagenTemperatura.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AsientoActivity.this, TemperaturaActivity.class);
+                intent.putExtra("asiento", asiento);
+                startActivity(intent);
+            }
+        });
 
 
+    }
 
+    private void crearListaAsientos() {
 
-
-
-
+        perfilesDeAsiento = sah.getAsientos();
+        listaDePerfiles = llenarArrayConPerfiles(perfilesDeAsiento);
+        if (perfilesDeAsiento == null || perfilesDeAsiento.size() == 0){
+            perfilesDeAsiento = new ArrayList<Asiento>();
+            perfilesDeAsiento.add(asiento);
+            perfilesDeAsiento.add(SEGURIDAD);
+            perfilesDeAsiento.add(NOCHE);
+            perfilesDeAsiento.add(LECTURA);
+            listaDePerfiles = new ArrayList<String >();
+            listaDePerfiles = llenarArrayConPerfiles(perfilesDeAsiento);
+        }
 
     }
 
@@ -121,10 +171,15 @@ public class AsientoActivity extends Activity implements
         shareProv.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        String mensajeParaEnviar = new String("Prueba a viajar de esta manera \r\n Reposapies: " + asiento.getRotacionReposapies() + " \r\n Respaldo: " + asiento.getRotacionAsiento()
+       /* String mensajeParaEnviar = "Prueba a viajar de esta manera \r\n Reposapies: " +  asiento.getRotacionReposapies() + " \r\n Respaldo: " + asiento.getRotacionAsiento()
                                                         + "  \r\n Reposacabezas: " + asiento.getRotacionCabeza() + "\r\n Luminosidad: " + asiento.getLuminosidad() + " \r\n Temperatura: " + asiento.getTemperatura()
-                                                        + "\r\n ¡Cómo mola viajar con ComfortTravel!");
-        intent.putExtra(Intent.EXTRA_TEXT, mensajeParaEnviar);
+                                                        + "\r\n ¡Cómo mola viajar con ComfortTravel!";
+        */
+        String mensajeParaEnviar = getString(R.string.mns_com_1) + "\r\n" + getString(R.string.mns_com_2) + " " +  asiento.getRotacionReposapies() + " \r\n"
+                + getString(R.string.mns_oom_3) + " " + asiento.getRotacionAsiento() + "\r\n" + getString(R.string.mns_com_4) + " " + asiento.getRotacionCabeza()
+                + "\r\n" + getString(R.string.mns_com_5) + " " + asiento.getLuminosidad() + "\r\n" +getString(R.string.mns_com_6) + " " + asiento.getTemperatura()
+                + "\r\n" + getString(R.string.mns_com_7);
+       intent.putExtra(Intent.EXTRA_TEXT, mensajeParaEnviar);
         shareProv.setShareIntent(intent);
 
         return true;
@@ -136,21 +191,22 @@ public class AsientoActivity extends Activity implements
     public boolean onOptionsItemSelected(MenuItem item) { //Otra forma de hacer lo mismo que se hace hacia arriba
         if(item.getItemId()==R.id.mnu_guardar){
 
+
             final AlertDialog.Builder dialogoGuardar = new AlertDialog.Builder(AsientoActivity.this);
             LayoutInflater inflater = this.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.dialog_guardar_perfil, null);
             dialogoGuardar.setView(dialogView);
 
-            dialogoGuardar.setTitle("Nombre del nuevo perfil");
+            dialogoGuardar.setTitle(getString(R.string.tit_dia_guardar));
             final EditText nuevoModo = (EditText) dialogView.findViewById(R.id.editText_nombre_perfil_nuevo);
-            dialogoGuardar.setPositiveButton("Hecho", new DialogInterface.OnClickListener() {
+            dialogoGuardar.setPositiveButton(getString(R.string.hecho), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if (nuevoModo.getText().toString().equals("")) {
-                        Toast.makeText(getApplicationContext(), "Add a value", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.vacio), Toast.LENGTH_SHORT).show();
                     } else {
                         if (listaDePerfiles.indexOf(nuevoModo.getText().toString()) != -1) {
-                            Toast.makeText(getApplicationContext(), "Ya existe un perfil con ese nombre", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.existe_perfil), Toast.LENGTH_SHORT).show();
                         } else {
                             System.out.println("aiento a añadir: " + asiento);
                             listaDePerfiles.add(nuevoModo.getText().toString());
@@ -165,12 +221,12 @@ public class AsientoActivity extends Activity implements
 
                             listnav.notifyDataSetChanged();
 
-                            Toast.makeText(getApplicationContext(), "Perfil añadido", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.perfil_añadido), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
             });
-            dialogoGuardar.setNegativeButton("Cancelar",new DialogInterface.OnClickListener()
+            dialogoGuardar.setNegativeButton(getString(R.string.cancelar),new DialogInterface.OnClickListener()
                     {
                         @Override
                         public void onClick (DialogInterface dialogInterface,int i){
@@ -183,19 +239,19 @@ public class AsientoActivity extends Activity implements
         if(item.getItemId()==R.id.mnu_borrar){
 
             AlertDialog.Builder builder = new AlertDialog.Builder(AsientoActivity.this);
-            builder.setMessage("¿Desea borrar el perfil " + asiento.getNombreModo().toLowerCase() + " ?");
-            builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            builder.setMessage(getString(R.string.dialog_borrar_pregunta)+ " " + asiento.getNombreModo().toLowerCase() + "?");
+            builder.setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if (asiento.getNombreModo().equals("Manual")){
-                        Toast.makeText(getApplicationContext(), "No se puede borrar el perfil manual", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.borrar_manual), Toast.LENGTH_SHORT).show();
                     }else{
+
                         System.out.println("aiento a borrar: " + asiento);
                         listaDePerfiles.remove(asiento.getNombreModo());
                         System.out.println(perfilesDeAsiento);
                         perfilesDeAsiento.remove(asiento);
                         System.out.println(perfilesDeAsiento);
-                        llenarArrayConPerfiles(perfilesDeAsiento);
                         asiento = perfilesDeAsiento.get(0);
                         System.out.println("tamaño del array de asientos " + perfilesDeAsiento.size() + " y el array de strings " + listaDePerfiles);
                         System.out.println("y el asiento que hay ahora es  " + asiento);
@@ -207,7 +263,7 @@ public class AsientoActivity extends Activity implements
                     }
                 }
             });
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -271,6 +327,37 @@ public class AsientoActivity extends Activity implements
         }else{
             return null;
         }
+    }
+
+        @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
+        Log.i("Stop", "Saving data");
+        sah.borrarTodosLosAsientos();
+        for (int i=0; i<perfilesDeAsiento.size(); i++){
+                sah.putAsiento(perfilesDeAsiento.get(i));
+            }
+    }
+
+    private void llamarAsistencia(){
+        AlertDialog.Builder dialogoAsistencia = new AlertDialog.Builder(AsientoActivity.this);
+        dialogoAsistencia.setMessage(getString(R.string.asistencia));
+        dialogoAsistencia.setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(), "Sí, por favor", Toast.LENGTH_SHORT).show();
+                //Lo necesario para que se encienda un led
+
+            }
+        });
+        dialogoAsistencia.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "No, de momento", Toast.LENGTH_SHORT).show();
+            }
+        });
+        dialogoAsistencia.show();
     }
 
 }
