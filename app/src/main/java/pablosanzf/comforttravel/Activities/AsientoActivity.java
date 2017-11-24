@@ -23,8 +23,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import pablosanzf.comforttravel.Domain.Asiento;
+import pablosanzf.comforttravel.Persistance.AsientoManager;
 import pablosanzf.comforttravel.R;
-import pablosanzf.comforttravel.Persistance.SQLiteAsientoHelper;
+
 
 public class AsientoActivity extends Activity implements
         ActionBar.OnNavigationListener{
@@ -39,8 +40,8 @@ public class AsientoActivity extends Activity implements
     private static final  Asiento SEGURIDAD = new Asiento(new String("SEGURIDAD"), new String("Seguridad"), 30,30 ,30,24,30);
 
     private ArrayList<String>  listaDePerfiles;
+    private ArrayList<String>  listaDePerfilesBorrar;
 
-    private SQLiteAsientoHelper sah = new SQLiteAsientoHelper(AsientoActivity.this);
 
     ArrayAdapter<String> listnav;
 
@@ -51,30 +52,18 @@ public class AsientoActivity extends Activity implements
     private ImageView imagenLocalizacion;
     private ImageView imagenAsistencia;
 
+    public static final int BORRAR_PERFIL = 1;
+    public static final int MODIFICAR_TEMPERATURA = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Aquí debería hacerse la recogida del intent desde la fase anterior de sincornización con el asiento
-        this.asiento = new Asiento("", "Manual", 0,0,0,22,86);
+        //this.asiento = new Asiento("", "Manual", 0,0,0,22,86);
 
         crearListaAsientos();
-
-        /*sah.borrarTodosLosasientos();
-        sah.putAsiento(asiento);
-        sah.putAsiento(SEGURIDAD);
-        sah.putAsiento(NOCHE);
-        sah.putAsiento(LECTURA);
-
-        perfilesDeAsiento.add(asiento);
-        perfilesDeAsiento.add(SEGURIDAD);
-        perfilesDeAsiento.add(NOCHE);
-        perfilesDeAsiento.add(LECTURA);
-
-
-        perfilesDeAsiento = sah.getAsientos();
-        listaDePerfiles = llenarArrayConPerfiles(perfilesDeAsiento);*/
 
         setContentView(R.layout.activity_asiento);
 
@@ -87,8 +76,8 @@ public class AsientoActivity extends Activity implements
         listnav.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         actionBar.setListNavigationCallbacks(listnav,this);
 
-        onNavigationItemSelected(0,0);
-        asiento = buscarEnArray(listaDePerfiles.get(0));
+        //onNavigationItemSelected(0,0);
+        //asiento = buscarEnArray(listaDePerfiles.get(0));
 
         imagenAsiento = (ImageView) findViewById(R.id.asiento);
         imagenTemperatura = (ImageView) findViewById(R.id.temperatura);
@@ -96,6 +85,8 @@ public class AsientoActivity extends Activity implements
         imagenComida = (ImageView) findViewById(R.id.comida);
         imagenLocalizacion= (ImageView) findViewById(R.id.localizacion);
         imagenAsistencia = (ImageView) findViewById(R.id.asistencia);
+
+        getActionBar().getSelectedNavigationIndex();
 
         imagenAsistencia.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +100,9 @@ public class AsientoActivity extends Activity implements
             public void onClick(View v) {
                 Intent intent = new Intent(AsientoActivity.this, TemperaturaActivity.class);
                 intent.putExtra("asiento_temp", asiento);
-                startActivity(intent);
+                startActivityForResult(intent, MODIFICAR_TEMPERATURA);
+
+
             }
         });
 
@@ -125,20 +118,37 @@ public class AsientoActivity extends Activity implements
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     private void crearListaAsientos() {
 
-        perfilesDeAsiento = sah.getAsientos();
-        listaDePerfiles = llenarArrayConPerfiles(perfilesDeAsiento);
-        if (perfilesDeAsiento == null || perfilesDeAsiento.size() == 0){
+        perfilesDeAsiento = (new AsientoManager(getApplicationContext())).cargarPerfiles();
+
+
+        if (perfilesDeAsiento == null ){
             perfilesDeAsiento = new ArrayList<Asiento>();
+            this.asiento = new Asiento("", "Manual", 0,0,0,22,86);
             perfilesDeAsiento.add(asiento);
             perfilesDeAsiento.add(SEGURIDAD);
             perfilesDeAsiento.add(NOCHE);
             perfilesDeAsiento.add(LECTURA);
-            listaDePerfiles = new ArrayList<String >();
+            listaDePerfiles = new ArrayList<String>();
+            listaDePerfiles = llenarArrayConPerfiles(perfilesDeAsiento);
+        }else{
             listaDePerfiles = llenarArrayConPerfiles(perfilesDeAsiento);
         }
 
+    }
+
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
+        Log.i("Stop", "Saving data");
+        (new AsientoManager(getApplicationContext())).guardarPerfiles(perfilesDeAsiento);
     }
 
     /**
@@ -181,21 +191,15 @@ public class AsientoActivity extends Activity implements
         shareProv.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-       /* String mensajeParaEnviar = "Prueba a viajar de esta manera \r\n Reposapies: " +  asiento.getRotacionReposapies() + " \r\n Respaldo: " + asiento.getRotacionAsiento()
-                                                        + "  \r\n Reposacabezas: " + asiento.getRotacionCabeza() + "\r\n Luminosidad: " + asiento.getLuminosidad() + " \r\n Temperatura: " + asiento.getTemperatura()
-                                                        + "\r\n ¡Cómo mola viajar con ComfortTravel!";
-        */
         String mensajeParaEnviar = getString(R.string.mns_com_1) + "\r\n" + getString(R.string.mns_com_2) + " " +  asiento.getRotacionReposapies() + " \r\n"
                 + getString(R.string.mns_oom_3) + " " + asiento.getRotacionAsiento() + "\r\n" + getString(R.string.mns_com_4) + " " + asiento.getRotacionCabeza()
                 + "\r\n" + getString(R.string.mns_com_5) + " " + asiento.getLuminosidad() + "\r\n" +getString(R.string.mns_com_6) + " " + asiento.getTemperatura()
                 + "\r\n" + getString(R.string.mns_com_7);
        intent.putExtra(Intent.EXTRA_TEXT, mensajeParaEnviar);
-        shareProv.setShareIntent(intent);
+       shareProv.setShareIntent(intent);
 
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { //Otra forma de hacer lo mismo que se hace hacia arriba
@@ -221,14 +225,19 @@ public class AsientoActivity extends Activity implements
                             System.out.println("aiento a añadir: " + asiento);
                             listaDePerfiles.add(nuevoModo.getText().toString());
                             System.out.println(perfilesDeAsiento);
-                            asiento.setNombreModo(nuevoModo.getText().toString());
-                            perfilesDeAsiento.add(asiento);
+                            //asiento.setNombreModo(nuevoModo.getText().toString());
+                            Asiento añadir = new Asiento(asiento.getIdentificador(), nuevoModo.getText().toString(), asiento.getRotacionCabeza(), asiento.getRotacionAsiento(), asiento.getRotacionReposapies(), asiento.getTemperatura(), asiento.getLuminosidad());
+                            perfilesDeAsiento.add(añadir);
+                            asiento = añadir;
+
                             System.out.println(perfilesDeAsiento);
                             llenarArrayConPerfiles(perfilesDeAsiento);
 
                             System.out.println("tamaño del array de asientos " + perfilesDeAsiento.size() + " y el array de strings " + listaDePerfiles);
                             System.out.println("y el asiento que hay ahora es  " + asiento);
 
+
+                            onNavigationItemSelected(perfilesDeAsiento.size()-1,perfilesDeAsiento.size()-1);
                             listnav.notifyDataSetChanged();
 
                             Toast.makeText(getApplicationContext(), getString(R.string.perfil_añadido), Toast.LENGTH_SHORT).show();
@@ -248,42 +257,34 @@ public class AsientoActivity extends Activity implements
         }
         if(item.getItemId()==R.id.mnu_borrar){
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(AsientoActivity.this);
-            builder.setMessage(getString(R.string.dialog_borrar_pregunta)+ " " + asiento.getNombreModo().toLowerCase() + "?");
-            builder.setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    if (asiento.getNombreModo().equals("Manual")){
-                        Toast.makeText(getApplicationContext(), getString(R.string.borrar_manual), Toast.LENGTH_SHORT).show();
-                    }else{
+            listaDePerfilesBorrar = new ArrayList<String>();
+            llenarArrayConPerfilesBorrar();
+            Intent borrarPerfilIntent = new Intent(this, BorrarActivity.class);
+            borrarPerfilIntent.putExtra(BorrarActivity.BORRAR_PERFILES , listaDePerfilesBorrar);
+            startActivityForResult(borrarPerfilIntent, BORRAR_PERFIL);
 
-                        System.out.println("aiento a borrar: " + asiento);
-                        listaDePerfiles.remove(asiento.getNombreModo());
-                        System.out.println(perfilesDeAsiento);
-                        perfilesDeAsiento.remove(asiento);
-                        System.out.println(perfilesDeAsiento);
-                        asiento = perfilesDeAsiento.get(0);
-                        System.out.println("tamaño del array de asientos " + perfilesDeAsiento.size() + " y el array de strings " + listaDePerfiles);
-                        System.out.println("y el asiento que hay ahora es  " + asiento);
-                        onNavigationItemSelected(0,0);
-                        listnav.notifyDataSetChanged();
-                        onNavigationItemSelected(0,0);
-                        listnav.notifyDataSetChanged();
-                        Toast.makeText(getApplicationContext(), "boton de sí", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
 
-                    Toast.makeText(getApplicationContext(), "boton de no", Toast.LENGTH_SHORT).show();
-                }
-            });
-            builder.show();
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == BORRAR_PERFIL){ // If it was an ADD_ITEM, then add the new item and update the list
+            if(resultCode == Activity.RESULT_OK){
+                borrarAsiento(data.getStringExtra(BorrarActivity.BORRAR_PERFILES));
+                listaDePerfiles.remove(data.getStringExtra(BorrarActivity.BORRAR_PERFILES));
+                listnav.notifyDataSetChanged();
+            }
+        }/*else if(requestCode == EDIT_ITEM){ // If it was an EDIT_ITEM, replace the selected item and update the list
+            if(resultCode == Activity.RESULT_OK){
+                mItems.set(mEditPosition, data.getStringExtra(ItemDetailActivity.ITEM_DESCRIPTION));
+                mAdapter.notifyDataSetChanged();
+            }
+        }*/
     }
 
 
@@ -313,10 +314,19 @@ public class AsientoActivity extends Activity implements
         for (int i=0; i<perfilesDeAsiento.size(); i++){
             respuesta.add(perfilesDeAsiento.get(i).getNombreModo());
         }
-
         return respuesta;
     }
 
+    private void llenarArrayConPerfilesBorrar() {
+        listaDePerfilesBorrar.removeAll(listaDePerfilesBorrar);
+        for (int i=0; i<listaDePerfiles.size(); i++){
+            if(listaDePerfiles.get(i).equals("Manual") || listaDePerfiles.get(i).equals("Seguridad") || listaDePerfiles.get(i).equals(asiento.getNombreModo())){
+            }else{
+                listaDePerfilesBorrar.add(listaDePerfiles.get(i));
+            }
+        }
+
+    }
 
 
     private Asiento buscarEnArray (String perfil){
@@ -326,28 +336,23 @@ public class AsientoActivity extends Activity implements
         int i=0;
         while (!encontrado && i < perfilesDeAsiento.size()) {
             if (perfil.equals(perfilesDeAsiento.get(i).getNombreModo())){
-                respuesta =  perfilesDeAsiento.get(i);
-                encontrado = true;
+                return perfilesDeAsiento.get(i);
             }else{
                 i++;
             }
         }
-        if (encontrado){
-            return respuesta;
-        }else{
-            return null;
-        }
+        return null;
     }
 
-        @Override
-    protected void onStop() {
-        // TODO Auto-generated method stub
-        super.onStop();
-        Log.i("Stop", "Saving data");
-        sah.borrarTodosLosAsientos();
-        for (int i=0; i<perfilesDeAsiento.size(); i++){
-                sah.putAsiento(perfilesDeAsiento.get(i));
+    private void borrarAsiento (String perfil){
+        int i=0;
+        while ( i < perfilesDeAsiento.size()) {
+            if (perfil.equals(perfilesDeAsiento.get(i).getNombreModo())){
+                perfilesDeAsiento.remove(i);
+            }else{
+                i++;
             }
+        }
     }
 
     private void llamarAsistencia(){

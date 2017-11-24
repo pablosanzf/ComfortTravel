@@ -23,6 +23,11 @@ public class AsientoManager {
     private static final String FILENAME = "PerfilesAsientos";
     private Context mContext;
 
+
+    public AsientoManager(Context c){
+        mContext = c;
+    }
+
     public ArrayList<Asiento> cargarPerfiles(){
         try {
             FileInputStream fis = mContext.openFileInput(FILENAME);
