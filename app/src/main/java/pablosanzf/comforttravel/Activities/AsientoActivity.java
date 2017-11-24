@@ -54,6 +54,8 @@ public class AsientoActivity extends Activity implements
 
     public static final int BORRAR_PERFIL = 1;
     public static final int MODIFICAR_TEMPERATURA = 2;
+    public static final int MODIFICAR_LUMINOSIDAD = 3;
+    public static final int ROTAR_ASIENTO = 4;
 
 
     @Override
@@ -76,8 +78,11 @@ public class AsientoActivity extends Activity implements
         listnav.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         actionBar.setListNavigationCallbacks(listnav,this);
 
+
+        //???????????????????
         //onNavigationItemSelected(0,0);
-        //asiento = buscarEnArray(listaDePerfiles.get(0));
+        asiento = buscarEnArray(listaDePerfiles.get(0));
+        //¿??¿?¿?¿?¿?¿?¿?
 
         imagenAsiento = (ImageView) findViewById(R.id.asiento);
         imagenTemperatura = (ImageView) findViewById(R.id.temperatura);
@@ -99,20 +104,27 @@ public class AsientoActivity extends Activity implements
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AsientoActivity.this, TemperaturaActivity.class);
-                intent.putExtra("asiento_temp", asiento);
+                intent.putExtra(TemperaturaActivity.MODIFICAR_TEMPERATURA, asiento);
                 startActivityForResult(intent, MODIFICAR_TEMPERATURA);
-
-
             }
         });
 
         imagenLuminosidad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Este es el asiiento que mando a luminosidadactivity: " + asiento.toString());
                 Intent intent = new Intent(AsientoActivity.this, LuminosidadActivity.class);
-                intent.putExtra("asiento_lum", asiento);
-                startActivity(intent);
+                intent.putExtra(LuminosidadActivity.MODIFICAR_LUMINOSIDAD, asiento);
+                startActivityForResult(intent, MODIFICAR_LUMINOSIDAD);
+            }
+        });
+
+        imagenAsiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Este es el asiiento que mando a RotacionActivity: " + asiento.toString());
+                Intent intent = new Intent(AsientoActivity.this, RotacionActivity.class);
+                intent.putExtra(RotacionActivity.ROTAR_ASIENTO, asiento);
+                startActivityForResult(intent, ROTAR_ASIENTO);
             }
         });
 
@@ -279,12 +291,18 @@ public class AsientoActivity extends Activity implements
                 listaDePerfiles.remove(data.getStringExtra(BorrarActivity.BORRAR_PERFILES));
                 listnav.notifyDataSetChanged();
             }
-        }/*else if(requestCode == EDIT_ITEM){ // If it was an EDIT_ITEM, replace the selected item and update the list
+        }else if(requestCode == MODIFICAR_TEMPERATURA){
             if(resultCode == Activity.RESULT_OK){
-                mItems.set(mEditPosition, data.getStringExtra(ItemDetailActivity.ITEM_DESCRIPTION));
-                mAdapter.notifyDataSetChanged();
+                asiento = (Asiento) data.getSerializableExtra(TemperaturaActivity.MODIFICAR_TEMPERATURA);
+               //¿¿¿talvez --> listnav.notifyDataSetChanged();???
             }
-        }*/
+        }else if(requestCode == MODIFICAR_LUMINOSIDAD){
+            if(resultCode == Activity.RESULT_OK){
+                asiento = (Asiento) data.getSerializableExtra(LuminosidadActivity.MODIFICAR_LUMINOSIDAD);
+                System.out.println("El asiento " + asiento.getNombreModo() + " tiene luminosidad: " + asiento.getLuminosidad());
+
+            }
+        }
     }
 
 

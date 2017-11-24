@@ -1,6 +1,7 @@
 package pablosanzf.comforttravel.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -33,6 +34,8 @@ public class LuminosidadActivity extends Activity {
     private static final int MIN_LUMINOSIDAD = 0;
     private static final int MAX_lUMINOSIDAD = 150;
 
+    public static final String MODIFICAR_LUMINOSIDAD = "modificar_lum";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +44,8 @@ public class LuminosidadActivity extends Activity {
         setContentView(R.layout.activity_luminosidad);
         asiento = new Asiento();
 
-        System.out.println("Este es el asiiento que creo en temperaturaactivity: " + asiento.toString());
-
-        if (getIntent().getSerializableExtra("asiento_lum") != null)
-            this.asiento = (Asiento) getIntent().getSerializableExtra("asiento_lum");
+        if (getIntent().getSerializableExtra(MODIFICAR_LUMINOSIDAD) != null)
+            this.asiento = (Asiento) getIntent().getSerializableExtra(MODIFICAR_LUMINOSIDAD);
 
         textLuminosidadActual = (TextView) findViewById(R.id.cd_actuales);
         editLuminosidadSeleccioanda = (EditText) findViewById(R.id.luminosidad_insertada);
@@ -115,8 +116,6 @@ public class LuminosidadActivity extends Activity {
                     }
                 }
         );
-
-
     }
 
     private void mostrarLuminosidadActual() {
@@ -149,6 +148,14 @@ public class LuminosidadActivity extends Activity {
      */
     private void modificarValorAire(int i) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intentResult = new Intent();
+        intentResult.putExtra(MODIFICAR_LUMINOSIDAD, asiento);
+        setResult(Activity.RESULT_OK, intentResult);
+        finish();
     }
 
 }

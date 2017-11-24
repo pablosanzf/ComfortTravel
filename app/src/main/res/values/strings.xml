@@ -25,7 +25,7 @@
     <string name="luminosidad_actual">La luminosidad actual:</string>
     <string name="selecciona_lum">Selecciona la luminosidad</string>
     <string name="candelas"> cd</string>
-    <string name="title_activity_borrar">BorrarActivity</string>
+    <string name="title_activity_borrar">Selecciona el perfil</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -115,6 +115,12 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="title_activity_rotacion">Rota el asiento</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_temperatura">Ajusta la temperatura</string>
+    <string name="title_activity_luminosidad">Ajusta la luminosidad</string>
 
 
 </resources>

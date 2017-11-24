@@ -1,6 +1,7 @@
 package pablosanzf.comforttravel.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,8 @@ public class TemperaturaActivity extends Activity {
     private static final int MIN_TEMPERATURA = 10;
     private static final int MAX_TEMPERATURA = 30;
 
+    public static final String MODIFICAR_TEMPERATURA = "modificar_temp";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +39,8 @@ public class TemperaturaActivity extends Activity {
         setContentView(R.layout.activity_temperatura);
         asiento = new Asiento();
 
-        System.out.println("Este es el asiiento que creo en temperaturaactivity: " + asiento.toString());
-
-        if (getIntent().getSerializableExtra("asiento_temp") != null)
-            this.asiento = (Asiento) getIntent().getSerializableExtra("asiento_temp");
+        if (getIntent().getSerializableExtra(MODIFICAR_TEMPERATURA) != null)
+            this.asiento = (Asiento) getIntent().getSerializableExtra(MODIFICAR_TEMPERATURA);
 
         textTemperaturaActual = (TextView) findViewById(R.id.grados_actuales);
         textTemperaturaSeleccioanda = (TextView) findViewById(R.id.temperatura_insertada);
@@ -79,8 +80,6 @@ public class TemperaturaActivity extends Activity {
 
     }
 
-
-
     private void mostrarTemperaturaActual() {
         if (asiento.getTemperatura() >= MAX_TEMPERATURA) {
             textTemperaturaSeleccioanda.setText("MAX");
@@ -93,7 +92,6 @@ public class TemperaturaActivity extends Activity {
         }
 
     }
-
 
     /**
      * Método que debe recibir la temperatura del termómetro
@@ -111,4 +109,11 @@ public class TemperaturaActivity extends Activity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intentResult = new Intent();
+        intentResult.putExtra(MODIFICAR_TEMPERATURA, asiento);
+        setResult(Activity.RESULT_OK, intentResult);
+        finish();
+    }
 }

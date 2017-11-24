@@ -8,17 +8,6 @@
     tools:context="pablosanzf.comforttravel.Activities.BorrarActivity">
 
 
-    <TextView
-        android:id="@+id/mensajeBorrar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="Seleccine el perfil que desea eliminar"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="30sp" />
-
     <RadioGroup
         android:id="@+id/radioGroupBorrar"
         android:layout_width="match_parent"
