@@ -33,14 +33,13 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activities.BorrarActivity"
+            android:configChanges="orientation"
             android:label="@string/title_activity_borrar"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activities.RotacionActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activities.RotacionActivity"
             android:label="@string/title_activity_rotacion"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
