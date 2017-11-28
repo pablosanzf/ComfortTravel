@@ -142,7 +142,7 @@ public class AsientoActivity extends Activity implements
 
         if (perfilesDeAsiento == null ){
             perfilesDeAsiento = new ArrayList<Asiento>();
-            this.asiento = new Asiento("", "Manual", 0,0,0,22,86);
+            this.asiento = new Asiento("", "Manual", 50,100,0,12,45);
             perfilesDeAsiento.add(asiento);
             perfilesDeAsiento.add(SEGURIDAD);
             perfilesDeAsiento.add(NOCHE);
@@ -236,8 +236,6 @@ public class AsientoActivity extends Activity implements
                         } else {
                             System.out.println("aiento a añadir: " + asiento);
                             listaDePerfiles.add(nuevoModo.getText().toString());
-                            System.out.println(perfilesDeAsiento);
-                            //asiento.setNombreModo(nuevoModo.getText().toString());
                             Asiento añadir = new Asiento(asiento.getIdentificador(), nuevoModo.getText().toString(), asiento.getRotacionCabeza(), asiento.getRotacionAsiento(), asiento.getRotacionReposapies(), asiento.getTemperatura(), asiento.getLuminosidad());
                             perfilesDeAsiento.add(añadir);
                             asiento = añadir;
@@ -245,12 +243,9 @@ public class AsientoActivity extends Activity implements
                             System.out.println(perfilesDeAsiento);
                             llenarArrayConPerfiles(perfilesDeAsiento);
 
-                            System.out.println("tamaño del array de asientos " + perfilesDeAsiento.size() + " y el array de strings " + listaDePerfiles);
-                            System.out.println("y el asiento que hay ahora es  " + asiento);
-
-
                             onNavigationItemSelected(perfilesDeAsiento.size()-1,perfilesDeAsiento.size()-1);
                             listnav.notifyDataSetChanged();
+                            getActionBar().setSelectedNavigationItem(perfilesDeAsiento.size()-1);
 
                             Toast.makeText(getApplicationContext(), getString(R.string.perfil_añadido), Toast.LENGTH_SHORT).show();
                         }
@@ -297,15 +292,17 @@ public class AsientoActivity extends Activity implements
                //¿¿¿talvez --> listnav.notifyDataSetChanged();???
             }
         }else if(requestCode == MODIFICAR_LUMINOSIDAD){
-            if(resultCode == Activity.RESULT_OK){
+            if(resultCode == Activity.RESULT_OK) {
                 asiento = (Asiento) data.getSerializableExtra(LuminosidadActivity.MODIFICAR_LUMINOSIDAD);
                 System.out.println("El asiento " + asiento.getNombreModo() + " tiene luminosidad: " + asiento.getLuminosidad());
-
             }
+        }else if(requestCode == ROTAR_ASIENTO){
+                if(resultCode == Activity.RESULT_OK){
+                    asiento = (Asiento) data.getSerializableExtra(RotacionActivity.ROTAR_ASIENTO);
+                    System.out.println("El asiento tras la rotación es " + asiento);
+                }
         }
     }
-
-
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
