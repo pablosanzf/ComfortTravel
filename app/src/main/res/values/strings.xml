@@ -29,6 +29,16 @@
     <string name="title_activity_rotacion">Rota el asiento</string>
     <string name="title_activity_temperatura">Ajusta la temperatura</string>
     <string name="title_activity_luminosidad">Ajusta la luminosidad</string>
+    <string name="borrar">Eliminar perfil</string>
+    <string name="compartir">Compartir</string>
+    <string name="inmodificableSeguridad">El perfil de seguridad no se puede modificar</string>
+    <string name="title_activity_localizacion">Map</string>
+    <string name="title_activity_comida">Comida a bordo</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 
 </resources>

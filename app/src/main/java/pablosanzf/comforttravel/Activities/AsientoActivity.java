@@ -57,6 +57,8 @@ public class AsientoActivity extends Activity implements
     public static final int MODIFICAR_LUMINOSIDAD = 3;
     public static final int ROTAR_ASIENTO = 4;
 
+    //clave de api maps AIzaSyCvkPcEnAI-uMAPrmZqrfp1G8s2xGgSY9c
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,28 +105,47 @@ public class AsientoActivity extends Activity implements
         imagenTemperatura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AsientoActivity.this, TemperaturaActivity.class);
-                intent.putExtra(TemperaturaActivity.MODIFICAR_TEMPERATURA, asiento);
-                startActivityForResult(intent, MODIFICAR_TEMPERATURA);
+                if (asiento.getNombreModo().equals("Seguridad")){
+                    Toast.makeText(getApplicationContext(), getString(R.string.inmodificableSeguridad), Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent = new Intent(AsientoActivity.this, TemperaturaActivity.class);
+                    intent.putExtra(TemperaturaActivity.MODIFICAR_TEMPERATURA, asiento);
+                    startActivityForResult(intent, MODIFICAR_TEMPERATURA);
+                }
             }
         });
 
         imagenLuminosidad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AsientoActivity.this, LuminosidadActivity.class);
-                intent.putExtra(LuminosidadActivity.MODIFICAR_LUMINOSIDAD, asiento);
-                startActivityForResult(intent, MODIFICAR_LUMINOSIDAD);
+                if (asiento.getNombreModo().equals("Seguridad")){
+                    Toast.makeText(getApplicationContext(), getString(R.string.inmodificableSeguridad), Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent = new Intent(AsientoActivity.this, LuminosidadActivity.class);
+                    intent.putExtra(LuminosidadActivity.MODIFICAR_LUMINOSIDAD, asiento);
+                    startActivityForResult(intent, MODIFICAR_LUMINOSIDAD);
+                }
             }
         });
 
         imagenAsiento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Este es el asiiento que mando a RotacionActivity: " + asiento.toString());
-                Intent intent = new Intent(AsientoActivity.this, RotacionActivity.class);
-                intent.putExtra(RotacionActivity.ROTAR_ASIENTO, asiento);
-                startActivityForResult(intent, ROTAR_ASIENTO);
+                if (asiento.getNombreModo().equals("Seguridad")){
+                    Toast.makeText(getApplicationContext(), getString(R.string.inmodificableSeguridad), Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent = new Intent(AsientoActivity.this, RotacionActivity.class);
+                    intent.putExtra(RotacionActivity.ROTAR_ASIENTO, asiento);
+                    startActivityForResult(intent, ROTAR_ASIENTO);
+                }
+            }
+        });
+
+        imagenComida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AsientoActivity.this, ComidaActivity.class);
+                startActivity(intent);
             }
         });
 
