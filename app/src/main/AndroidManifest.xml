@@ -54,6 +54,13 @@
         <activity
             android:name=".Activities.ComidaActivity"
             android:label="@string/title_activity_comida"></activity>
+
+        <receiver android:name=".Receivers.BateriaBajaReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -2,8 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="pablosanzf.comforttravel.Activities.ComidaActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/asistencia_comida"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        android:icon="@mipmap/valet_white"
+        android:showAsAction="always"
         android:title="@string/action_settings" />
 </menu>

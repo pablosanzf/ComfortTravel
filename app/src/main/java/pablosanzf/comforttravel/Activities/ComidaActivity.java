@@ -3,10 +3,14 @@ package pablosanzf.comforttravel.Activities;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -17,12 +21,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import pablosanzf.comforttravel.Adapter.MiArrayAdapter;
 import pablosanzf.comforttravel.Domain.Plato;
 import pablosanzf.comforttravel.R;
 
@@ -101,11 +108,32 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.asistencia_comida) {
+            llamarAsistencia();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void llamarAsistencia(){
+        AlertDialog.Builder dialogoAsistencia = new AlertDialog.Builder(ComidaActivity.this);
+        dialogoAsistencia.setMessage(getString(R.string.asistenciaComida));
+        dialogoAsistencia.setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(), "Sí, por favor", Toast.LENGTH_SHORT).show();
+                //Lo necesario para que se encienda un led
+
+            }
+        });
+        dialogoAsistencia.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "No, de momento", Toast.LENGTH_SHORT).show();
+            }
+        });
+        dialogoAsistencia.show();
     }
 
     @Override
@@ -150,12 +178,14 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
             return fragment;
         }
 
+
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_comida, container, false);
 
-           //desde aqui
+
             ListView lista = (ListView) rootView.findViewById(R.id.lista_comida);
             ListAdapter listAdapter = lista.getAdapter();
 
@@ -165,54 +195,73 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
             switch (getArguments().getInt(ARG_SECTION_NUMBER)){
                 case 1:
                     arrPlatos.clear();
-                    arrPlatos.add(new Plato("Macarrones", 12.50) );
-                    arrPlatos.add(new Plato("Espaguetis", 12.50) );
-                    arrPlatos.add(new Plato("Ensalada", 12.50) );
-                    arrPlatos.add(new Plato("Vainas", 12.50) );
-                    arrPlatos.add(new Plato("Alubias", 12.50) );
+                    Plato macarrones = new Plato( "Macarrones", 12.50);
+
+                    arrPlatos.add(new Plato(1,R.drawable.valet, "Macarrones", 12.50) );
+
+//                    arrPlatos.add(new Plato("Espaguetis", 12.50) );
+//                    arrPlatos.add(new Plato("Ensalada", 12.50) );
+//                    arrPlatos.add(new Plato("Vainas", 12.50) );
+//                    arrPlatos.add(new Plato("Alubias", 12.50) );
                     break;
                 case 2:
                     arrPlatos.clear();
-                    arrPlatos.add(new Plato("Ternera", 12.50) );
-                    arrPlatos.add(new Plato("Chipirones", 12.50) );
-                    arrPlatos.add(new Plato("Merluza", 12.50) );
-                    arrPlatos.add(new Plato("Bonito", 12.50) );
-                    arrPlatos.add(new Plato("Pollo", 10.0) );
+                    //                   arrPlatos.add(new Plato("Ternera", 12.50) );
+//                    arrPlatos.add(new Plato("Chipirones", 12.50) );
+//                    arrPlatos.add(new Plato("Merluza", 12.50) );
+//                    arrPlatos.add(new Plato("Bonito", 12.50) );
+//                    arrPlatos.add(new Plato("Pollo", 10.0) );
                     break;
                 case 3:
                     arrPlatos.clear();
-                    arrPlatos.add(new Plato("Arroz con leche", 12.50) );
-                    arrPlatos.add(new Plato("Flan", 12.50) );
-                    arrPlatos.add(new Plato("Helado", 12.50) );
-                    arrPlatos.add(new Plato("Fruta", 12.50) );
-                    arrPlatos.add(new Plato("Rosco de reyes", 10.0) );
+                    //                   arrPlatos.add(new Plato("Arroz con leche", 12.50) );
+                    //                   arrPlatos.add(new Plato("Flan", 12.50) );
+//                    arrPlatos.add(new Plato("Helado", 12.50) );
+                    //                   arrPlatos.add(new Plato("Fruta", 12.50) );
+//                    arrPlatos.add(new Plato("Rosco de reyes", 10.0) );
                     break;
                 case 4:
                     arrPlatos.clear();
-                    arrPlatos.add(new Plato("Agua", 12.50) );
-                    arrPlatos.add(new Plato("Vino", 12.50) );
-                    arrPlatos.add(new Plato("Gintonic", 12.50) );
-                    arrPlatos.add(new Plato("Cerveza", 12.50) );
-                    arrPlatos.add(new Plato("Kas naranja", 10.0) );
+//                    arrPlatos.add(new Plato("Agua", 12.50) );
+//                    arrPlatos.add(new Plato("Vino", 12.50) );
+//                    arrPlatos.add(new Plato("Gintonic", 12.50) );
+//                    arrPlatos.add(new Plato("Cerveza", 12.50) );
+//                    arrPlatos.add(new Plato("Kas naranja", 10.0) );
                     break;
 
             }
 
-            ArrayAdapter<Plato> adpPlatos = new ArrayAdapter<Plato>(getContext(), android.R.layout.simple_list_item_activated_2, android.R.id.text1, arrPlatos) {
+
+            MiArrayAdapter madpPlatos = new MiArrayAdapter(getContext(), arrPlatos);
+
+
+           /* ArrayAdapter<Plato> adpPlatos = new ArrayAdapter<Plato>(getContext(), R.layout.food_list_row, R.id.nombrePlato , arrPlatos) {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View view = super.getView(position, convertView, parent);
-                    TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-                    TextView text2 = (TextView) view.findViewById(android.R.id.text2);
-                    text1.setText(arrPlatos.get(position).getNombrePlato());
-                    text2.setText("Precio: " + String.valueOf(arrPlatos.get(position).getPrecio()));
+                    TextView nombrePlato = (TextView) view.findViewById(R.id.nombrePlato);
+                    TextView precioPlato = (TextView) view.findViewById(R.id.precioPlato);
+                    nombrePlato.setText(arrPlatos.get(position).getNombrePlato());
+                    precioPlato.setText("Precio: " + String.valueOf(arrPlatos.get(position).getPrecio()));
                     return view;
                 }
-            };
+            };*/
 
-            lista.setAdapter(adpPlatos);
+            /*ArrayAdapter<Plato> adpPlatos = new ArrayAdapter<Plato>(getContext(), android.R.layout.simple_list_item_activated_2, android.R.id.text1, arrPlatos) {
+                @Override
+                 public View getView(int position, View convertView, ViewGroup parent) {
+                                        View view = super.getView(position, convertView, parent);
+                                        TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                                        TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+                                       text1.setText(arrPlatos.get(position).getNombrePlato());
+                                        text2.setText("Precio: " + String.valueOf(arrPlatos.get(position).getPrecio()));
+                                        return view;
+                                   }
+             };*/
 
-            // Hasta aquí
+            lista.setAdapter(madpPlatos);
+
+
 
             return rootView;
         }

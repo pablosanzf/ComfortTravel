@@ -106,7 +106,6 @@ public class LocalizacionActivity extends Activity implements
         } else if (item.getItemId() == R.id.action_send_location) {
             // Upload the most recent location detected by the smartphone to the Web
             sendLocation();
-        } else if (item.getItemId() == R.id.action_settings) {
         }
         return true;
     }

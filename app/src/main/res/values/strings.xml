@@ -46,6 +46,8 @@
     <string name="msg_error_no_connection">No hay conectividad</string>
     <string name="msg_error_server">Servidor no disponible</string>
     <string name="send_location">Send location</string>
+    <string name="asistenciaComida">¿Desea que un miembro del personal de vuelo le tome nota?</string>
+    <string name="bateriaBaja">Batería baja</string>
 
 
 </resources>

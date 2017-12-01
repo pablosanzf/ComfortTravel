@@ -10,11 +10,14 @@ import java.io.Serializable;
 
 public class Plato implements Serializable {
 
-    private ImageView imagenComida;
+
+    private int identificador;
+    private int imagenComida;
     private String nombrePlato;
     private double precio;
 
-    public Plato(ImageView imagenComida, String nombrePlato, double precio) {
+    public Plato(int identificador, int imagenComida, String nombrePlato, double precio) {
+        this.identificador = identificador;
         this.imagenComida = imagenComida;
         this.nombrePlato = nombrePlato;
         this.precio = precio;
@@ -30,11 +33,11 @@ public class Plato implements Serializable {
         this.precio = 0.0;
     }
 
-    public ImageView getImagenComida() {
+    public int getImagenComida() {
         return imagenComida;
     }
 
-    public void setImagenComida(ImageView imagenComida) {
+    public void setImagenComida(int imagenComida) {
         this.imagenComida = imagenComida;
     }
 
@@ -53,11 +56,20 @@ public class Plato implements Serializable {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
+    public int getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(int identificador) {
+        this.identificador = identificador;
+    }
+
 
     @Override
     public String toString() {
         return "Plato{" +
-                "nombrePlato='" + nombrePlato + '\'' +
+                "identificador=" + identificador +
+                ", nombrePlato='" + nombrePlato + '\'' +
                 ", precio=" + precio +
                 '}';
     }
