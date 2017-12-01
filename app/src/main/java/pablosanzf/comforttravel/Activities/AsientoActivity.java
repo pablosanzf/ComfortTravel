@@ -144,8 +144,16 @@ public class AsientoActivity extends Activity implements
         imagenComida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AsientoActivity.this, ComidaActivity.class);
-                startActivity(intent);
+          //      Intent intent = new Intent(AsientoActivity.this, ComidaActivity.class);
+          //      startActivity(intent);
+            }
+        });
+
+        imagenLocalizacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                     Intent intent = new Intent(AsientoActivity.this, LocalizacionActivity.class);
+                      startActivity(intent);
             }
         });
 

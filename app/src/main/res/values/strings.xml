@@ -37,8 +37,15 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_text_3">Tab 3</string>
-    <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_update">Update</string>
+    <string name="lbl_location">última localización conocida:</string>
+    <string name="location_service_uri">http://json.internetdelascosas.es/</string>
+    <string name="msg_error_no_connection">No hay conectividad</string>
+    <string name="msg_error_server">Servidor no disponible</string>
+    <string name="send_location">Send location</string>
 
 
 </resources>
