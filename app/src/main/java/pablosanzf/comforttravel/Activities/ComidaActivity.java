@@ -195,38 +195,37 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
             switch (getArguments().getInt(ARG_SECTION_NUMBER)){
                 case 1:
                     arrPlatos.clear();
-                    Plato macarrones = new Plato( "Macarrones", 12.50);
 
-                    arrPlatos.add(new Plato(1,R.drawable.valet, "Macarrones", 12.50) );
+                    arrPlatos.add(new Plato(1,R.drawable.macarrones, "Macarrones con queso", 7.50) );
+                    arrPlatos.add(new Plato(2,R.drawable.ensalada_ilustrada_especial, "Ensalada ilustrada", 7.50) );
+                    arrPlatos.add(new Plato(3,R.drawable.menestra, "Menestra de verdura", 8.50) );
+                    arrPlatos.add(new Plato(4,R.drawable.alubias_rojas, "Alubias rojas", 8.50) );
+                    arrPlatos.add(new Plato(5,R.drawable.paella, "Paella", 8.50) );
 
-//                    arrPlatos.add(new Plato("Espaguetis", 12.50) );
-//                    arrPlatos.add(new Plato("Ensalada", 12.50) );
-//                    arrPlatos.add(new Plato("Vainas", 12.50) );
-//                    arrPlatos.add(new Plato("Alubias", 12.50) );
                     break;
                 case 2:
                     arrPlatos.clear();
-                    //                   arrPlatos.add(new Plato("Ternera", 12.50) );
-//                    arrPlatos.add(new Plato("Chipirones", 12.50) );
-//                    arrPlatos.add(new Plato("Merluza", 12.50) );
-//                    arrPlatos.add(new Plato("Bonito", 12.50) );
-//                    arrPlatos.add(new Plato("Pollo", 10.0) );
+                    arrPlatos.add(new Plato(5,R.drawable.ternera, "Filete de ternera", 7.00) );
+                    arrPlatos.add(new Plato(6,R.drawable.chipirones, "Chipirones en su tinta", 7.50) );
+                    arrPlatos.add(new Plato(7,R.drawable.merluza, "Merluza en salsa verde", 8.50) );
+                    arrPlatos.add(new Plato(8,R.drawable.pollo_con_papas, "Pollo con patatas", 7.00) );
+                    arrPlatos.add(new Plato(9,R.drawable.bonito, "Bonito a la riojana", 8.50) );
                     break;
                 case 3:
                     arrPlatos.clear();
-                    //                   arrPlatos.add(new Plato("Arroz con leche", 12.50) );
-                    //                   arrPlatos.add(new Plato("Flan", 12.50) );
-//                    arrPlatos.add(new Plato("Helado", 12.50) );
-                    //                   arrPlatos.add(new Plato("Fruta", 12.50) );
-//                    arrPlatos.add(new Plato("Rosco de reyes", 10.0) );
+                    arrPlatos.add(new Plato(10,R.drawable.fruta, "Fruta", 2) );
+                    arrPlatos.add(new Plato(11,R.drawable.arrozconleche, "Arroz con leche", 3.50) );
+                    arrPlatos.add(new Plato(12,R.drawable.helado, "Helado", 3.5) );
+                    arrPlatos.add(new Plato(13,R.drawable.flan, "Flan", 3) );
+                    arrPlatos.add(new Plato(14,R.drawable.bizcocho, "Bizcocho de yogur", 3) );
                     break;
                 case 4:
                     arrPlatos.clear();
-//                    arrPlatos.add(new Plato("Agua", 12.50) );
-//                    arrPlatos.add(new Plato("Vino", 12.50) );
-//                    arrPlatos.add(new Plato("Gintonic", 12.50) );
-//                    arrPlatos.add(new Plato("Cerveza", 12.50) );
-//                    arrPlatos.add(new Plato("Kas naranja", 10.0) );
+                    arrPlatos.add(new Plato(15,R.drawable.agua, "Agua", 1) );
+                    arrPlatos.add(new Plato(16,R.drawable.vino, "Vino", 3.5) );
+                    arrPlatos.add(new Plato(17,R.drawable.refredconaranja, "Refresco de naranja", 2) );
+                    arrPlatos.add(new Plato(18,R.drawable.refresco_limon, "Refresco de limón", 2) );
+                    arrPlatos.add(new Plato(19,R.drawable.alcohol, "Bebidas alcohólicas", 6) );
                     break;
 
             }
@@ -260,8 +259,6 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
              };*/
 
             lista.setAdapter(madpPlatos);
-
-
 
             return rootView;
         }
