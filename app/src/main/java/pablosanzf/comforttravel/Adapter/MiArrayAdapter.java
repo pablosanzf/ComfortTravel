@@ -52,7 +52,7 @@ public class MiArrayAdapter extends BaseAdapter {
 
         txtTitle.setText(arrayListPlatos.get(position).getNombrePlato());
         imageView.setImageResource(arrayListPlatos.get(position).getImagenComida());
-        extratxt.setText("Precio:  "+ String.valueOf(arrayListPlatos.get(position).getPrecio()));
+        extratxt.setText("Precio:  "+ String.valueOf(arrayListPlatos.get(position).getPrecio() + " €"));
         return rowView;
 
     }
