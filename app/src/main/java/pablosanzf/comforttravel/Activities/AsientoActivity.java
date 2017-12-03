@@ -81,10 +81,10 @@ public class AsientoActivity extends Activity implements
         actionBar.setListNavigationCallbacks(listnav,this);
 
 
-        //???????????????????
+
         //onNavigationItemSelected(0,0);
         asiento = buscarEnArray(listaDePerfiles.get(0));
-        //¿??¿?¿?¿?¿?¿?¿?
+
 
         imagenAsiento = (ImageView) findViewById(R.id.asiento);
         imagenTemperatura = (ImageView) findViewById(R.id.temperatura);
@@ -338,20 +338,13 @@ public class AsientoActivity extends Activity implements
 
         //Asiento elegido = buscarEnArray(getResources().getStringArray(R.array.perfiles)[itemPosition]);
         asiento = buscarEnArray(listaDePerfiles.get(itemPosition));
-        modificarValoresAsiento (asiento);
 
         invalidateOptionsMenu(); //esta invocación sirve para destuir el menu y dejarlo guardado, para asi por si se comparte tener en el intent de compartir
         //el nuevo valor de grados y de ciudad
         return true;
     }
 
-    /**
-     * Aquí debería realizarse la modficación del asiento con los valores del perfil seleccionado
-     * @param elegido el asiento con los valores del perfil elegido
-     */
-    private void modificarValoresAsiento(Asiento elegido) {
-        Toast.makeText(this, "Cambiando al perfil " + elegido.getNombreModo() + " temperatura= " + elegido.getTemperatura(), Toast.LENGTH_SHORT).show();
-    }
+
 
     private ArrayList<String> llenarArrayConPerfiles (ArrayList<Asiento> perfilesDeAsiento){
         ArrayList<String> respuesta = new ArrayList<String>();
