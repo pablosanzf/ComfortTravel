@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ComfortTravel.iml" filepath="$PROJECT_DIR$/ComfortTravel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ComfortTravel.iml" filepath="$PROJECT_DIR$/.idea/ComfortTravel.iml" />
+      <module fileurl="file://C:\Users\UsuarioPC\AndroidStudioProjects\ComfortTravel\ComfortTravel.iml" filepath="C:\Users\UsuarioPC\AndroidStudioProjects\ComfortTravel\ComfortTravel.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

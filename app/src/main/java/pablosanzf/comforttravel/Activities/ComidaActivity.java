@@ -197,7 +197,7 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
                     arrPlatos.clear();
 
                     arrPlatos.add(new Plato(1,R.drawable.macarrones, "Macarrones con queso", 7.50) );
-                    arrPlatos.add(new Plato(2,R.drawable.ensalada_ilustrada_especial, "Ensalada ilustrada", 7.50) );
+                    arrPlatos.add(new Plato(2,R.drawable.ensalada_ilustrada, "Ensalada ilustrada", 7.50) );
                     arrPlatos.add(new Plato(3,R.drawable.menestra, "Menestra de verdura", 8.50) );
                     arrPlatos.add(new Plato(4,R.drawable.alubias_rojas, "Alubias rojas", 8.50) );
                     arrPlatos.add(new Plato(5,R.drawable.paella, "Paella", 8.50) );
