@@ -7,8 +7,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import pablosanzf.comforttravel.R;
 
@@ -19,6 +21,10 @@ import pablosanzf.comforttravel.R;
 public class BateriaBajaReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+
+        if (level<5){
 
         // First, create the notification
         Notification.Builder nBuilder =
@@ -45,6 +51,8 @@ public class BateriaBajaReceiver extends BroadcastReceiver {
         Notification noti = nBuilder.build();
 
         mNotificationManager.notify(0, noti);
+
+        }
 
     }
 }

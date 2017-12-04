@@ -2,6 +2,10 @@ package pablosanzf.comforttravel.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -59,7 +63,7 @@ public class LuminosidadActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (asiento.getLuminosidad() == MAX_lUMINOSIDAD) {
-                    Toast.makeText(getApplicationContext(), "la temperatura ya es máxima", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.lumMaxima , Toast.LENGTH_SHORT).show();
 
                 } else {
                     asiento.setLuminosidad(asiento.getLuminosidad() + 1);
@@ -73,7 +77,7 @@ public class LuminosidadActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (asiento.getLuminosidad() == MIN_LUMINOSIDAD) {
-                    Toast.makeText(getApplicationContext(), "la temperatura ya es mínima", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.lumMinima , Toast.LENGTH_SHORT).show();
 
                 } else {
                     asiento.setLuminosidad(asiento.getLuminosidad() - 1);
@@ -132,14 +136,35 @@ public class LuminosidadActivity extends Activity {
 
     }
 
-
     /**
      * Método que debe recibir la luminosidad del termómetro
      */
     private void recibirLuminosidad() {
-        Toast.makeText(getApplicationContext(), "Recibir la luminosidad", Toast.LENGTH_SHORT).show();
         textLuminosidadActual.setText(String.valueOf(new Random().nextInt(150)));
+        SensorManager mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        Sensor lightSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        if(lightSensor != null){
+            mySensorManager.registerListener(LightSensorListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }else{
+            //introducir la comunicación para recibir la temperatura por el sensor del arduino
+            textLuminosidadActual.setText(String.valueOf(new Random().nextInt(150)));
+        }
     }
+
+    private final SensorEventListener LightSensorListener = new SensorEventListener(){
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            // TODO Auto-generated method stub
+        }
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            if(event.sensor.getType() == Sensor.TYPE_LIGHT){
+                textLuminosidadActual.setText( String.valueOf(event.values[0]));
+            }
+        }
+
+    };
+
 
     /**
      * Metodo que debe modificar la luminosidad del aire

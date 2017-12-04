@@ -4,9 +4,11 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import pablosanzf.comforttravel.Domain.Asiento;
 import pablosanzf.comforttravel.Persistance.AsientoManager;
 import pablosanzf.comforttravel.R;
+import pablosanzf.comforttravel.Receivers.BateriaBajaReceiver;
 
 
 public class AsientoActivity extends Activity implements
@@ -56,6 +59,8 @@ public class AsientoActivity extends Activity implements
     public static final int MODIFICAR_TEMPERATURA = 2;
     public static final int MODIFICAR_LUMINOSIDAD = 3;
     public static final int ROTAR_ASIENTO = 4;
+
+    private BroadcastReceiver mReceiver;
 
     //clave de api maps AIzaSyCvkPcEnAI-uMAPrmZqrfp1G8s2xGgSY9c
 
@@ -157,6 +162,8 @@ public class AsientoActivity extends Activity implements
             }
         });
 
+        mReceiver = new BateriaBajaReceiver();
+
     }
 
     @Override
@@ -187,10 +194,18 @@ public class AsientoActivity extends Activity implements
     @Override
     protected void onStop() {
         // TODO Auto-generated method stub
-        super.onStop();
+        //super.onStop();
         Log.i("Stop", "Saving data");
         (new AsientoManager(getApplicationContext())).guardarPerfiles(perfilesDeAsiento);
+        unregisterReceiver(mReceiver);
+        super.onStop();
     }
+    @Override
+    protected void onStart() {
+        registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        super.onStart();
+    }
+
 
     /**
      * Backward-compatible version of {@link ActionBar#getThemedContext()} that
@@ -411,5 +426,8 @@ public class AsientoActivity extends Activity implements
         });
         dialogoAsistencia.show();
     }
+
+
+
 
 }

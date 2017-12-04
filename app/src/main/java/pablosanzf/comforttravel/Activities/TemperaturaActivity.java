@@ -2,6 +2,10 @@ package pablosanzf.comforttravel.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -54,7 +58,7 @@ public class TemperaturaActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (asiento.getTemperatura() == MAX_TEMPERATURA) {
-                    Toast.makeText(getApplicationContext(), "la temperatura ya es máxima", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.tempMaxima , Toast.LENGTH_SHORT).show();
 
                 } else {
                     asiento.setTemperatura(asiento.getTemperatura() + 1);
@@ -68,7 +72,7 @@ public class TemperaturaActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (asiento.getTemperatura() == MIN_TEMPERATURA) {
-                    Toast.makeText(getApplicationContext(), "la temperatura ya es mínima", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.tempMinima , Toast.LENGTH_SHORT).show();
 
                 } else {
                     asiento.setTemperatura(asiento.getTemperatura() - 1);
@@ -97,9 +101,31 @@ public class TemperaturaActivity extends Activity {
      * Método que debe recibir la temperatura del termómetro
      */
     private void recibirTemoperatura() {
-        Toast.makeText(getApplicationContext(), "Recibir la temperatura", Toast.LENGTH_SHORT).show();
-        textTemperaturaActual.setText(String.valueOf(10 + new Random().nextInt(20)));
+        SensorManager mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+
+        Sensor TemperatureSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        if(TemperatureSensor != null){
+            mySensorManager.registerListener(AmbientTemperatureSensorListener, TemperatureSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }else{
+            //introducir la comunicación para recibir la temperatura por el sensor del arduino
+            textTemperaturaActual.setText(String.valueOf(10 + new Random().nextInt(20)));
+        }
     }
+
+    private final SensorEventListener AmbientTemperatureSensorListener = new SensorEventListener(){
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            // TODO Auto-generated method stub
+        }
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            if(event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE){
+                textTemperaturaActual.setText( String.valueOf(event.values[0]));
+            }
+        }
+
+    };
+
 
     /**
      * Metodo que debe modificar la temperatura del aire

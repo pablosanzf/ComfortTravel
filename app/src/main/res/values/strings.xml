@@ -48,6 +48,13 @@
     <string name="send_location">Send location</string>
     <string name="asistenciaComida">¿Desea que un miembro del personal de vuelo le tome nota?</string>
     <string name="bateriaBaja">Batería baja</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="atender">En seguida le atenderá un miembro del personal de vuelo</string>
+    <string name="tempMaxima">\"La temperatura ya es máxima\"</string>
+    <string name="tempMinima">\"la temperatura ya es mínima\"</string>
+    <string name="lumMaxima">La luminosidad ya es máxima</string>
+    <string name="lumMinima">la luminosidad ya es mínima</string>
 
 
 </resources>
