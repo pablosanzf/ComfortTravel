@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+
 import java.util.ArrayList;
 
 import pablosanzf.comforttravel.Domain.Asiento;
@@ -68,9 +70,6 @@ public class AsientoActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //Aquí debería hacerse la recogida del intent desde la fase anterior de sincornización con el asiento
-        //this.asiento = new Asiento("", "Manual", 0,0,0,22,86);
 
         crearListaAsientos();
 
@@ -168,7 +167,7 @@ public class AsientoActivity extends Activity implements
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        finishAffinity();
     }
 
     private void crearListaAsientos() {
@@ -205,6 +204,7 @@ public class AsientoActivity extends Activity implements
         registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         super.onStart();
     }
+
 
 
     /**

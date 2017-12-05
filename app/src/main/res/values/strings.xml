@@ -55,6 +55,9 @@
     <string name="tempMinima">\"la temperatura ya es mínima\"</string>
     <string name="lumMaxima">La luminosidad ya es máxima</string>
     <string name="lumMinima">la luminosidad ya es mínima</string>
+    <string name="facebook_app_id">457838681277851</string>
+    <string name="fb_login_protocol_scheme">fb457838681277851</string>
+    <string name="luxes">lx</string>
 
 
 </resources>

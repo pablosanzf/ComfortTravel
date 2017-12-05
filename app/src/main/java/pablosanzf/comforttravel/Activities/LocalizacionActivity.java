@@ -38,6 +38,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 /**
@@ -58,13 +64,15 @@ public class LocalizacionActivity extends Activity implements
     private ProgressBar barConnectivity;
 
     // For storing the last up-to-date smartphone location
-    private Location location = null;
+    private Location location ;
 
     // Change this phone number to avoid collisions with the other students
     private String mPhoneNumber = "34678000991";
 
     // Internal code of the operation for identifying the callback
     private static final int REQUEST_PERMISSION_LOCATION_UPDATES = 1;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -285,6 +293,7 @@ public class LocalizacionActivity extends Activity implements
         Log.i("Location client", "New location: " + location.toString());
     }
 
+
     /**
      * Convenience class to access the Internet and update UI elements
      */
@@ -314,8 +323,8 @@ public class LocalizacionActivity extends Activity implements
 
         @Override
         protected void onPostExecute(String result) {
-            barConnectivity.setVisibility(View.GONE);
-            txtLocation.setVisibility(View.VISIBLE);
+           barConnectivity.setVisibility(View.GONE);
+           txtLocation.setVisibility(View.VISIBLE);
             if(result != null){
                 txtLocation.setText(result);
             }else{

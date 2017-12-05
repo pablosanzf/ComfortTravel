@@ -36,7 +36,10 @@ public class LuminosidadActivity extends Activity {
     private Asiento asiento;
 
     private static final int MIN_LUMINOSIDAD = 0;
-    private static final int MAX_lUMINOSIDAD = 150;
+    private static final int MAX_lUMINOSIDAD = 4000;
+
+    private float valorLum;
+    private boolean primerPaso = true;
 
     public static final String MODIFICAR_LUMINOSIDAD = "modificar_lum";
 
@@ -56,18 +59,19 @@ public class LuminosidadActivity extends Activity {
         buttonMas = (Button) findViewById(R.id.mas_luminosidad);
         buttonMenos = (Button) findViewById(R.id.menos_luminosidad);
 
+
         recibirLuminosidad();
         mostrarLuminosidadActual();
 
         buttonMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (asiento.getLuminosidad() == MAX_lUMINOSIDAD) {
+                if (asiento.getLuminosidad() >= MAX_lUMINOSIDAD) {
                     Toast.makeText(getApplicationContext(), R.string.lumMaxima , Toast.LENGTH_SHORT).show();
 
                 } else {
-                    asiento.setLuminosidad(asiento.getLuminosidad() + 1);
-                    modificarValorAire(1);
+                    asiento.setLuminosidad(asiento.getLuminosidad() + 100);
+                    modificarValorLuz(100);
                 }
                 mostrarLuminosidadActual();
             }
@@ -76,12 +80,12 @@ public class LuminosidadActivity extends Activity {
         buttonMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (asiento.getLuminosidad() == MIN_LUMINOSIDAD) {
+                if (asiento.getLuminosidad() <= MIN_LUMINOSIDAD) {
                     Toast.makeText(getApplicationContext(), R.string.lumMinima , Toast.LENGTH_SHORT).show();
 
                 } else {
-                    asiento.setLuminosidad(asiento.getLuminosidad() - 1);
-                    modificarValorAire(-1);
+                    asiento.setLuminosidad(asiento.getLuminosidad() - 100);
+                    modificarValorLuz(-100);
                 }
                 mostrarLuminosidadActual();
             }
@@ -140,7 +144,7 @@ public class LuminosidadActivity extends Activity {
      * Método que debe recibir la luminosidad del termómetro
      */
     private void recibirLuminosidad() {
-        textLuminosidadActual.setText(String.valueOf(new Random().nextInt(150)));
+
         SensorManager mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         Sensor lightSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         if(lightSensor != null){
@@ -159,7 +163,17 @@ public class LuminosidadActivity extends Activity {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-                textLuminosidadActual.setText( String.valueOf(event.values[0]));
+                if((!primerPaso) &&((valorLum+40)<(event.values[0])|| (valorLum-40)>(event.values[0]))){
+                    textLuminosidadActual.setText( String.valueOf(event.values[0]));
+                    valorLum = event.values[0];
+                }
+                if(primerPaso){
+                    textLuminosidadActual.setText( String.valueOf(event.values[0]));
+                    valorLum = event.values[0];
+                    primerPaso = false;
+                }
+
+
             }
         }
 
@@ -171,7 +185,7 @@ public class LuminosidadActivity extends Activity {
      *
      * @param i grados que sube o baja
      */
-    private void modificarValorAire(int i) {
+    private void modificarValorLuz(int i) {
 
     }
 

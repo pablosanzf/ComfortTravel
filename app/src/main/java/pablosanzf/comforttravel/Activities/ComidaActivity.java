@@ -233,31 +233,6 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
 
             MiArrayAdapter madpPlatos = new MiArrayAdapter(getContext(), arrPlatos);
 
-
-           /* ArrayAdapter<Plato> adpPlatos = new ArrayAdapter<Plato>(getContext(), R.layout.food_list_row, R.id.nombrePlato , arrPlatos) {
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    View view = super.getView(position, convertView, parent);
-                    TextView nombrePlato = (TextView) view.findViewById(R.id.nombrePlato);
-                    TextView precioPlato = (TextView) view.findViewById(R.id.precioPlato);
-                    nombrePlato.setText(arrPlatos.get(position).getNombrePlato());
-                    precioPlato.setText("Precio: " + String.valueOf(arrPlatos.get(position).getPrecio()));
-                    return view;
-                }
-            };*/
-
-            /*ArrayAdapter<Plato> adpPlatos = new ArrayAdapter<Plato>(getContext(), android.R.layout.simple_list_item_activated_2, android.R.id.text1, arrPlatos) {
-                @Override
-                 public View getView(int position, View convertView, ViewGroup parent) {
-                                        View view = super.getView(position, convertView, parent);
-                                        TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-                                        TextView text2 = (TextView) view.findViewById(android.R.id.text2);
-                                       text1.setText(arrPlatos.get(position).getNombrePlato());
-                                        text2.setText("Precio: " + String.valueOf(arrPlatos.get(position).getPrecio()));
-                                        return view;
-                                   }
-             };*/
-
             lista.setAdapter(madpPlatos);
 
             return rootView;

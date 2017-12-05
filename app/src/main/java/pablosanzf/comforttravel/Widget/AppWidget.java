@@ -30,6 +30,7 @@ public class AppWidget extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.widgetImage, pendingIntent);
 
+
         appWidgetManager.updateAppWidget(widgetId, views);
 
     }
