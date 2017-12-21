@@ -43,6 +43,7 @@
     <string name="action_update">Update</string>
     <string name="lbl_location">última localización conocida:</string>
     <string name="location_service_uri">http://json.internetdelascosas.es/</string>
+    <string name="service_uri">http://json.internetdelascosas.es/</string>
     <string name="msg_error_no_connection">No hay conectividad</string>
     <string name="msg_error_server">Servidor no disponible</string>
     <string name="send_location">Send location</string>

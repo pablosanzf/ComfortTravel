@@ -31,7 +31,7 @@ public class BateriaBajaReceiver extends BroadcastReceiver {
                 new Notification.Builder(context)
                         .setSmallIcon(R.mipmap.ic_new_launcher)
                         .setContentTitle("Batería baja")
-                        .setContentText("Por favor, seleccione el perfil de seguridad dentro de ComfortTravel");
+                        .setContentText("Por favor, seleccione el perfil de seguridad.");
 //                        .setChannelId(NotificationChannel.DEFAULT_CHANNEL_ID);
         // Second, display the notification
         NotificationManager mNotificationManager =

@@ -23,6 +23,11 @@
             android:name=".Activities.AsientoActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.TemperaturaActivity"
@@ -49,7 +54,9 @@
         <activity android:name=".Activities.LocalizacionActivity" />
         <activity
             android:name=".Activities.ComidaActivity"
-            android:label="@string/title_activity_comida" />
+            android:label="@string/title_activity_comida"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
 
         <receiver android:name=".Widget.AppWidget">
             <intent-filter>
@@ -61,12 +68,11 @@
                 android:resource="@xml/app_widget_info" />
         </receiver>
 
-        <activity android:name=".Activities.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".Activities.LoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"

@@ -108,7 +108,7 @@ public class TemperaturaActivity extends Activity {
             mySensorManager.registerListener(AmbientTemperatureSensorListener, TemperatureSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }else{
             //introducir la comunicación para recibir la temperatura por el sensor del arduino
-            textTemperaturaActual.setText(String.valueOf(10 + new Random().nextInt(20)));
+
         }
     }
 
