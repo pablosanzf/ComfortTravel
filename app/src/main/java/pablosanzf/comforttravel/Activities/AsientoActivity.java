@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,9 +27,13 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 import pablosanzf.comforttravel.Domain.Asiento;
+import pablosanzf.comforttravel.Net.SimpleHttpClient;
 import pablosanzf.comforttravel.Persistance.AsientoManager;
 import pablosanzf.comforttravel.R;
 import pablosanzf.comforttravel.Receivers.BateriaBajaReceiver;
@@ -415,6 +422,7 @@ public class AsientoActivity extends Activity implements
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(getApplicationContext(), "Sí, por favor", Toast.LENGTH_SHORT).show();
                 //Lo necesario para que se encienda un led
+                arduinoLed();
 
             }
         });
@@ -427,7 +435,66 @@ public class AsientoActivity extends Activity implements
         dialogoAsistencia.show();
     }
 
+    private void arduinoLed() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
+        if (networkInfo != null && networkInfo.isConnected() ) {
+            // OK -> Access the Internet
+            new ArduinoLed().execute(true);
+
+        } else {
+            // No -> Display error message
+            Toast.makeText(this, R.string.msg_error_no_connection, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Convenience class to access the Internet and update UI elements
+     */
+    private class ArduinoLed extends AsyncTask<Boolean, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            // Formatting the timestamp
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            String timestamp =  sdf.format(new Date());
+
+            //String locationEndpoint = getString(R.string.service_uri) + "add_position.php?device_id=" + mPhoneNumber;
+            String url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led&data_value=1";
+
+            String url = locationEndpoint
+                    + "&latitude=" + location.getLatitude()
+                    + "&longitude=" + location.getLongitude()
+                    + "&timestamp_utc=" + timestamp;
+            Log.i("Location client", url);
+
+            SimpleHttpClient shc = new SimpleHttpClient(url);
+            shc.doGet();
+            return true;
+        }
+
+        @Override
+        protected Boolean doInBackground(Boolean... booleans) {
+            Boolean activar = booleans[0];
+            String url;
+            if(activar){
+                url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led&data_value=1";
+            }else{
+                url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led&data_value=0";
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(!result)
+                Toast.makeText(getApplicationContext(), R.string.msg_error_server, Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 }
