@@ -1,15 +1,21 @@
 package pablosanzf.comforttravel.Activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import pablosanzf.comforttravel.Domain.Asiento;
+import pablosanzf.comforttravel.Net.SimpleHttpClient;
 import pablosanzf.comforttravel.R;
 
 public class RotacionActivity extends Activity {
@@ -67,6 +73,7 @@ public class RotacionActivity extends Activity {
                     seekBar.setMax(MAX_ROTACION_CABEZA);
                     seekBar.setProgress((int) asiento.getRotacionCabeza());
 
+
                 }else if(checkedId == R.id.radioButtonEspalda){
                    // seekBar.setMin(MIN_ROTACION_ESPALDA);
                     seekBar.setMax(MAX_ROTACION_ESPALDA);
@@ -85,6 +92,7 @@ public class RotacionActivity extends Activity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (R.id.radioButtonCabeza == radioGroup.getCheckedRadioButtonId()){
                     asiento.setRotacionCabeza(progress);
+                    arduinoServo(progress);
                 }else if(R.id.radioButtonEspalda == radioGroup.getCheckedRadioButtonId()){
                     asiento.setRotacionAsiento(progress);
                 }else if (R.id.radioButtonPies == radioGroup.getCheckedRadioButtonId()){
@@ -107,5 +115,40 @@ public class RotacionActivity extends Activity {
         intentResult.putExtra(ROTAR_ASIENTO, asiento);
         setResult(Activity.RESULT_OK, intentResult);
         finish();
+    }
+
+    private void arduinoServo(int progress) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected() ) {
+            // OK -> Access the Internet
+            new RotacionActivity.ArduinoServo().execute(progress);
+
+        } else {
+            // No -> Display error message
+            Toast.makeText(this, R.string.msg_error_no_connection, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class ArduinoServo extends AsyncTask<Integer, Void, Boolean> {
+
+       @Override
+        protected Boolean doInBackground(Integer... progresses) {
+            int progress = progresses[0];
+            String url;
+            url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=servo&data_value=" + progress;
+
+
+            SimpleHttpClient shc = new SimpleHttpClient(url);
+            shc.doGet();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(!result)
+                Toast.makeText(getApplicationContext(), R.string.msg_error_server, Toast.LENGTH_SHORT).show();
+        }
     }
 }

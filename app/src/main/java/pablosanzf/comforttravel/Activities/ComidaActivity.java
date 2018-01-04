@@ -8,7 +8,11 @@ import android.app.FragmentTransaction;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -31,6 +35,7 @@ import java.util.ArrayList;
 
 import pablosanzf.comforttravel.Adapter.MiArrayAdapter;
 import pablosanzf.comforttravel.Domain.Plato;
+import pablosanzf.comforttravel.Net.SimpleHttpClient;
 import pablosanzf.comforttravel.R;
 
 public class ComidaActivity extends Activity implements ActionBar.TabListener {
@@ -124,6 +129,13 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(getApplicationContext(), "Sí, por favor", Toast.LENGTH_SHORT).show();
                 //Lo necesario para que se encienda un led
+                arduinoLed(true);
+                /** try {
+                 TimeUnit.SECONDS.sleep(10);
+                 } catch (InterruptedException e) {
+                 e.printStackTrace();
+                 }
+                 arduinoLed(false);*/
 
             }
         });
@@ -134,6 +146,45 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
             }
         });
         dialogoAsistencia.show();
+    }
+
+    private void arduinoLed(Boolean bool) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected() ) {
+            // OK -> Access the Internet
+            new ComidaActivity.ArduinoLed().execute(bool);
+
+        } else {
+            // No -> Display error message
+            Toast.makeText(this, R.string.msg_error_no_connection, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class ArduinoLed extends AsyncTask<Boolean, Void, Boolean> {
+
+
+        @Override
+        protected Boolean doInBackground(Boolean... booleans) {
+            Boolean activar = booleans[0];
+            String url;
+            if(activar){
+                url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led_comida&data_value=1";
+            }else{
+                url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led_comida&data_value=0";
+            }
+
+            SimpleHttpClient shc = new SimpleHttpClient(url);
+            shc.doGet();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(!result)
+                Toast.makeText(getApplicationContext(), R.string.msg_error_server, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

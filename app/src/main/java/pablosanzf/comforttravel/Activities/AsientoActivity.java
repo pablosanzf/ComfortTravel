@@ -25,9 +25,11 @@ import android.widget.ImageView;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
+
 import com.facebook.login.LoginManager;
 
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
@@ -422,7 +424,13 @@ public class AsientoActivity extends Activity implements
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(getApplicationContext(), "Sí, por favor", Toast.LENGTH_SHORT).show();
                 //Lo necesario para que se encienda un led
-                arduinoLed();
+                arduinoLed(true);
+               /** try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                arduinoLed(false);*/
 
             }
         });
@@ -433,15 +441,17 @@ public class AsientoActivity extends Activity implements
             }
         });
         dialogoAsistencia.show();
+
+
     }
 
-    private void arduinoLed() {
+    private void arduinoLed(Boolean bool) {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected() ) {
             // OK -> Access the Internet
-            new ArduinoLed().execute(true);
+            new ArduinoLed().execute(bool);
 
         } else {
             // No -> Display error message
@@ -454,7 +464,7 @@ public class AsientoActivity extends Activity implements
      */
     private class ArduinoLed extends AsyncTask<Boolean, Void, Boolean> {
 
-        @Override
+        /**@Override
         protected Boolean doInBackground(Void... params) {
 
             // Formatting the timestamp
@@ -474,7 +484,7 @@ public class AsientoActivity extends Activity implements
             SimpleHttpClient shc = new SimpleHttpClient(url);
             shc.doGet();
             return true;
-        }
+        }*/
 
         @Override
         protected Boolean doInBackground(Boolean... booleans) {
@@ -486,7 +496,9 @@ public class AsientoActivity extends Activity implements
                 url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led&data_value=0";
             }
 
-            return null;
+            SimpleHttpClient shc = new SimpleHttpClient(url);
+            shc.doGet();
+            return true;
         }
 
         @Override
