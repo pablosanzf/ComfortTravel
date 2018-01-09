@@ -129,7 +129,10 @@ public class TemperaturaActivity extends Activity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
+
+
         if (networkInfo != null && networkInfo.isConnected()) {
+            textTemperaturaActual.setVisibility(View.GONE);
             new ArduinoTemperatura().execute(getString(R.string.service_uri)+ "arduino/getlast.php?device_id=" + deviceID + "&data_name=temp&nitems=1");
         } else {
             // No -> Display error message
@@ -188,6 +191,9 @@ public class TemperaturaActivity extends Activity {
 
         @Override
         protected void onPostExecute(String result) {
+
+            textTemperaturaActual.setVisibility(View.VISIBLE);
+
             if (result != null) {
                 textTemperaturaActual.setText(result);
             } else {

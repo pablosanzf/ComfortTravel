@@ -173,7 +173,9 @@ public class LuminosidadActivity extends Activity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
+
         if (networkInfo != null && networkInfo.isConnected()) {
+            textLuminosidadActual.setVisibility(View.GONE);
             new ArduinoLuminosidad().execute(getString(R.string.service_uri)+ "arduino/getlast.php?device_id=" + deviceID + "&data_name=lum&nitems=1");
         } else {
             // No -> Display error message
@@ -240,6 +242,8 @@ public class LuminosidadActivity extends Activity {
 
         @Override
         protected void onPostExecute(String result) {
+
+            textLuminosidadActual.setVisibility(View.VISIBLE);
             if(result != null){
                 textLuminosidadActual.setText(result);
             }else{
