@@ -83,7 +83,7 @@ public class LuminosidadActivity extends Activity {
 
                 } else {
                     asiento.setLuminosidad(asiento.getLuminosidad() + 100);
-                    modificarValorLuz(100);
+                    modificarValorLuz(asiento.getLuminosidad());
                 }
                 mostrarLuminosidadActual();
             }
@@ -97,11 +97,12 @@ public class LuminosidadActivity extends Activity {
 
                 } else {
                     asiento.setLuminosidad(asiento.getLuminosidad() - 100);
-                    modificarValorLuz(-100);
+                    modificarValorLuz(asiento.getLuminosidad());
                 }
                 mostrarLuminosidadActual();
             }
         });
+
 
 
 
@@ -130,6 +131,7 @@ public class LuminosidadActivity extends Activity {
                             }
                             InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                            modificarValorLuz(asiento.getLuminosidad());
                             return true; // consume.
                         }
                         return false; // pass on to other listeners.
@@ -210,8 +212,21 @@ public class LuminosidadActivity extends Activity {
      *
      * @param i grados que sube o baja
      */
-    private void modificarValorLuz(int i) {
+    private void modificarValorLuz(double i) {
+        arduinoLuminosidadAdd(i);
+    }
 
+    private void arduinoLuminosidadAdd(double luminosidad) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected() ) {
+            // OK -> Access the Internet
+            new ArduinoLuminosidadAdd().execute(luminosidad);
+        } else {
+            // No -> Display error message
+            Toast.makeText(this, R.string.msg_error_no_connection, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -268,6 +283,26 @@ public class LuminosidadActivity extends Activity {
 
     }
 
+    private class ArduinoLuminosidadAdd extends AsyncTask<Double, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Double... progresses) {
+            Double progress = progresses[0];
+            String url;
+            url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=new_lum&data_value=" + progress;
+
+
+            SimpleHttpClient shc = new SimpleHttpClient(url);
+            shc.doGet();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(!result)
+                Toast.makeText(getApplicationContext(), R.string.msg_error_server, Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 

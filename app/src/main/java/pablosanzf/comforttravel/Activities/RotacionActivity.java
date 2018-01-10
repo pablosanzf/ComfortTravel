@@ -31,11 +31,11 @@ public class RotacionActivity extends Activity {
     private Asiento asiento;
 
     private static final int MIN_ROTACION_CABEZA = 0;
-    private static final int MAX_ROTACION_CABEZA = 100;
+    private static final int MAX_ROTACION_CABEZA = 179;
     private static final int MIN_ROTACION_ESPALDA = 0;
-    private static final int MAX_ROTACION_ESPALDA = 100;
+    private static final int MAX_ROTACION_ESPALDA = 179;
     private static final int MIN_ROTACION_PIES = 0;
-    private static final int MAX_ROTACION_PIES = 100;
+    private static final int MAX_ROTACION_PIES = 179;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

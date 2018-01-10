@@ -74,7 +74,7 @@ public class TemperaturaActivity extends Activity {
 
                 } else {
                     asiento.setTemperatura(asiento.getTemperatura() + 1);
-                    modificarValorAire(1);
+                    modificarValorAire(asiento.getTemperatura());
                 }
                 mostrarTemperaturaActual();
             }
@@ -88,7 +88,7 @@ public class TemperaturaActivity extends Activity {
 
                 } else {
                     asiento.setTemperatura(asiento.getTemperatura() - 1);
-                    modificarValorAire(-1);
+                    modificarValorAire(asiento.getTemperatura());
                 }
                 mostrarTemperaturaActual();
             }
@@ -151,16 +151,28 @@ public class TemperaturaActivity extends Activity {
                 textTemperaturaActual.setText( String.valueOf(event.values[0]));
             }
         }
-
     };
 
 
     /**
      * Metodo que debe modificar la temperatura del aire
-     * @param i grados que sube o baja
+     * @param i grados que hay que mandar
      */
     private void modificarValorAire(int i) {
+        arduinoTemperaturaAdd(i);
+    }
 
+    private void arduinoTemperaturaAdd(int temperatura) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected() ) {
+            // OK -> Access the Internet
+            new ArduinoTemperaturaAdd().execute(temperatura);
+        } else {
+            // No -> Display error message
+            Toast.makeText(this, R.string.msg_error_no_connection, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -216,4 +228,25 @@ public class TemperaturaActivity extends Activity {
         }
 
     }
+    private class ArduinoTemperaturaAdd extends AsyncTask<Integer, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Integer... progresses) {
+            int progress = progresses[0];
+            String url;
+            url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=new_temp&data_value=" + progress;
+
+
+            SimpleHttpClient shc = new SimpleHttpClient(url);
+            shc.doGet();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(!result)
+                Toast.makeText(getApplicationContext(), R.string.msg_error_server, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

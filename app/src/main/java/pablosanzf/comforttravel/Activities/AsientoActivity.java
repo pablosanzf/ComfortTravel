@@ -464,27 +464,6 @@ public class AsientoActivity extends Activity implements
      */
     private class ArduinoLed extends AsyncTask<Boolean, Void, Boolean> {
 
-        /**@Override
-        protected Boolean doInBackground(Void... params) {
-
-            // Formatting the timestamp
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            String timestamp =  sdf.format(new Date());
-
-            //String locationEndpoint = getString(R.string.service_uri) + "add_position.php?device_id=" + mPhoneNumber;
-            String url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led&data_value=1";
-
-            String url = locationEndpoint
-                    + "&latitude=" + location.getLatitude()
-                    + "&longitude=" + location.getLongitude()
-                    + "&timestamp_utc=" + timestamp;
-            Log.i("Location client", url);
-
-            SimpleHttpClient shc = new SimpleHttpClient(url);
-            shc.doGet();
-            return true;
-        }*/
 
         @Override
         protected Boolean doInBackground(Boolean... booleans) {
