@@ -46,7 +46,7 @@ public class LuminosidadActivity extends Activity {
     private Asiento asiento;
 
     private static final int MIN_LUMINOSIDAD = 0;
-    private static final int MAX_lUMINOSIDAD = 4000;
+    private static final int MAX_lUMINOSIDAD = 1400;
 
     private float valorLum;
     private boolean primerPaso = true;
@@ -193,7 +193,7 @@ public class LuminosidadActivity extends Activity {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-                if((!primerPaso) &&((valorLum+40)<(event.values[0])|| (valorLum-40)>(event.values[0]))){
+                if((!primerPaso) &&((valorLum+50)<(event.values[0])|| (valorLum-50)>(event.values[0]))){
                     textLuminosidadActual.setText( String.valueOf(event.values[0]));
                     valorLum = event.values[0];
                 }
@@ -279,7 +279,6 @@ public class LuminosidadActivity extends Activity {
             }
             return lum;
         }
-
 
     }
 

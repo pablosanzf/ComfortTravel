@@ -362,6 +362,7 @@ public class AsientoActivity extends Activity implements
 
         //Asiento elegido = buscarEnArray(getResources().getStringArray(R.array.perfiles)[itemPosition]);
         asiento = buscarEnArray(listaDePerfiles.get(itemPosition));
+        modificarValoresArduino((int)asiento.getRotacionCabeza(), asiento.getTemperatura(), asiento.getLuminosidad());
 
         invalidateOptionsMenu(); //esta invocación sirve para destuir el menu y dejarlo guardado, para asi por si se comparte tener en el intent de compartir
         //el nuevo valor de grados y de ciudad
@@ -425,19 +426,13 @@ public class AsientoActivity extends Activity implements
                 Toast.makeText(getApplicationContext(), "Sí, por favor", Toast.LENGTH_SHORT).show();
                 //Lo necesario para que se encienda un led
                 arduinoLed(true);
-               /** try {
-                    TimeUnit.SECONDS.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                arduinoLed(false);*/
 
             }
         });
         dialogoAsistencia.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "No, de momento", Toast.LENGTH_SHORT).show();
+
             }
         });
         dialogoAsistencia.show();
@@ -487,5 +482,106 @@ public class AsientoActivity extends Activity implements
         }
     }
 
+    private void modificarValoresArduino(int rotacionCabeza, int temperatura, double luminosidad) {
+            arduinoServo(rotacionCabeza);
+            arduinoTemperaturaAdd(temperatura);
+            arduinoLuminosidadAdd(luminosidad);
+    }
 
+    private void arduinoServo(int progress) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected() ) {
+            // OK -> Access the Internet
+            new ArduinoServo().execute(progress);
+
+        } else {
+            // No -> Display error message
+            Toast.makeText(this, R.string.msg_error_no_connection, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class ArduinoServo extends AsyncTask<Integer, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Integer... progresses) {
+            int progress = progresses[0];
+            String url;
+            url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=servo&data_value=" + progress;
+            SimpleHttpClient shc = new SimpleHttpClient(url);
+            shc.doGet();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(!result)
+                Toast.makeText(getApplicationContext(), R.string.msg_error_server, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void arduinoTemperaturaAdd(int temperatura) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected() ) {
+            // OK -> Access the Internet
+            new ArduinoTemperaturaAdd().execute(temperatura);
+        } else {
+            // No -> Display error message
+            Toast.makeText(this, R.string.msg_error_no_connection, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class ArduinoTemperaturaAdd extends AsyncTask<Integer, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Integer... progresses) {
+            int progress = progresses[0];
+            String url;
+            url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=new_temp&data_value=" + progress;
+            SimpleHttpClient shc = new SimpleHttpClient(url);
+            shc.doGet();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(!result)
+                Toast.makeText(getApplicationContext(), R.string.msg_error_server, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void arduinoLuminosidadAdd(double luminosidad) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected() ) {
+            // OK -> Access the Internet
+            new ArduinoLuminosidadAdd().execute(luminosidad);
+        } else {
+            // No -> Display error message
+            Toast.makeText(this, R.string.msg_error_no_connection, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class ArduinoLuminosidadAdd extends AsyncTask<Double, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Double... progresses) {
+            Double progress = progresses[0];
+            String url;
+            url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=new_lum&data_value=" + progress;
+            SimpleHttpClient shc = new SimpleHttpClient(url);
+            shc.doGet();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(!result)
+                Toast.makeText(getApplicationContext(), R.string.msg_error_server, Toast.LENGTH_SHORT).show();
+        }
+    }
 }

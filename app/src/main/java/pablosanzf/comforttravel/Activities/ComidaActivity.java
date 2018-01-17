@@ -170,9 +170,9 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
             Boolean activar = booleans[0];
             String url;
             if(activar){
-                url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led_comida&data_value=1";
+                url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led&data_value=1";
             }else{
-                url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led_comida&data_value=0";
+                url = getString(R.string.service_uri) + "arduino/add.php?device_id=4&data_name=led&data_value=0";
             }
 
             SimpleHttpClient shc = new SimpleHttpClient(url);

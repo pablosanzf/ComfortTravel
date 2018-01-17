@@ -44,7 +44,7 @@ public class LoginActivity extends Activity {
         getActionBar().hide();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        sharedPref = getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        sharedPref = getSharedPreferences("myPref2", Context.MODE_PRIVATE);
         loginStateEditor=sharedPref.edit();
 
         if (sharedPref.getBoolean("success_login", false)) {
