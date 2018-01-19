@@ -52,7 +52,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * @author Inaki Vazquez
  * @version 1.0
  */
-public class LocalizacionActivity extends Activity implements
+public class LocalizacionActivity extends FragmentActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -67,7 +67,7 @@ public class LocalizacionActivity extends Activity implements
     private Location location ;
 
     // Change this phone number to avoid collisions with the other students
-    private String mPhoneNumber = "34678000991";
+    private String mPhoneNumber = "34";
 
     // Internal code of the operation for identifying the callback
     private static final int REQUEST_PERMISSION_LOCATION_UPDATES = 1;
@@ -353,25 +353,28 @@ public class LocalizacionActivity extends Activity implements
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            if (location == null)
+            if (location == null){
+                Log.i("Locationis null", "Null Locationnnnnnnnnnnnnnnnnnnnnnnnn");
                 return false;
+            }else {
 
-            // Formatting the timestamp
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            String timestamp =  sdf.format(new Date());
+                // Formatting the timestamp
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                String timestamp = sdf.format(new Date());
 
-            String locationEndpoint = getString(R.string.location_service_uri) + "add_position.php?device_id=" + mPhoneNumber;
+                String locationEndpoint = getString(R.string.location_service_uri) + "add_position.php?device_id=" + mPhoneNumber;
 
-            String url = locationEndpoint
-                    + "&latitude=" + location.getLatitude()
-                    + "&longitude=" + location.getLongitude()
-                    + "&timestamp_utc=" + timestamp;
-            Log.i("Location client", url);
+                String url = locationEndpoint
+                        + "&latitude=" + location.getLatitude()
+                        + "&longitude=" + location.getLongitude()
+                        + "&timestamp_utc=" + timestamp;
+                Log.i("Locationclient URL", url);
 
-            SimpleHttpClient shc = new SimpleHttpClient(url);
-            shc.doGet();
-            return true;
+                SimpleHttpClient shc = new SimpleHttpClient(url);
+                shc.doGet();
+                return true;
+            }
         }
 
         @Override
