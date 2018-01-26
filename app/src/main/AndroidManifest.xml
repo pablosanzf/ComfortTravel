@@ -22,7 +22,13 @@
         <activity
             android:name=".Activities.AsientoActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+         </activity>
         <activity
             android:name=".Activities.TemperaturaActivity"
             android:configChanges="orientation"
@@ -65,13 +71,7 @@
         <activity
             android:name=".Activities.LoginActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -96,6 +96,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"/>
     </application>
 
 </manifest>

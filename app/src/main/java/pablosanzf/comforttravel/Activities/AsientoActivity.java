@@ -1,5 +1,6 @@
 package pablosanzf.comforttravel.Activities;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -9,11 +10,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,6 +74,8 @@ public class AsientoActivity extends Activity implements
     public static final int MODIFICAR_TEMPERATURA = 2;
     public static final int MODIFICAR_LUMINOSIDAD = 3;
     public static final int ROTAR_ASIENTO = 4;
+
+    private static final int REQUEST_PERMISSION_LOCATION_UPDATES = 1;
 
     private BroadcastReceiver mReceiver;
 
@@ -165,12 +171,20 @@ public class AsientoActivity extends Activity implements
         imagenLocalizacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                     Intent intent = new Intent(AsientoActivity.this, LocalizacionActivity.class);
+                     Intent intent = new Intent(AsientoActivity.this, pablosanzf.comforttravel.MapsActivity.class);
                       startActivity(intent);
             }
         });
 
         mReceiver = new BateriaBajaReceiver();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{
+
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    }, REQUEST_PERMISSION_LOCATION_UPDATES);
+        }
 
     }
 
