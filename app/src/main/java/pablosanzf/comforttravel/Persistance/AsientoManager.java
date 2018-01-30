@@ -20,7 +20,7 @@ import pablosanzf.comforttravel.Domain.Asiento;
 
 public class AsientoManager {
 
-    private static final String FILENAME = "PerfilesAsientos";
+    private static final String FILENAME = "asientosPerfiles";
     private Context mContext;
 
 

@@ -162,7 +162,7 @@ public class LuminosidadActivity extends Activity {
         SensorManager mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         Sensor lightSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         //El primer caso es recibir directamente el valor de la luminosidad desde el sensor del movil
-        //el else es para hacerlo desde el arduino
+        //l else es para hacerlo desde el arduino
        if(lightSensor != null){
            mySensorManager.registerListener(LightSensorListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }else{

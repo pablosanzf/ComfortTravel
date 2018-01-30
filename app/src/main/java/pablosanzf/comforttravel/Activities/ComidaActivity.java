@@ -127,7 +127,6 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
         dialogoAsistencia.setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(), "Sí, por favor", Toast.LENGTH_SHORT).show();
                 //Lo necesario para que se encienda un led
                 arduinoLed(true);
                 /** try {
@@ -309,7 +308,7 @@ public class ComidaActivity extends Activity implements ActionBar.TabListener {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 4 total pages.
             return 4;
         }
 

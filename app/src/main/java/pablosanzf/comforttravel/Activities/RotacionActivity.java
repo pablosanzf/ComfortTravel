@@ -58,12 +58,6 @@ public class RotacionActivity extends Activity {
         seekBar.setMax(MAX_ROTACION_CABEZA);
         seekBar.setProgress((int) asiento.getRotacionCabeza());
 
-        /*Para cada uno de los tres casos habrá que meter el valor inicial dentro de la seekbar
-        no hacerlo solo para cabeza ya que el evento de tener que cambiar en radiobuttons no creo que
-                se pueda controlar. pienso que habra que hacer un ifchecked controlar el valor del asiento de partida
-                y mirarlo. Problemas con los valores máximos paa Seguridad, Noche, ... miralo
-         */
-
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

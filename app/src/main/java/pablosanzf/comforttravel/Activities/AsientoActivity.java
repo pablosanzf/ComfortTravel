@@ -54,8 +54,8 @@ public class AsientoActivity extends Activity implements
 
     private ArrayList<Asiento> perfilesDeAsiento;
     private static final  Asiento NOCHE = new Asiento(new String("NOCHE"), new String("Noche"), 10,10 ,10,14,100);
-    private static final  Asiento LECTURA = new Asiento(new String("LECTURA"), new String("Lectura"), 20,20 ,20,20,20);
-    private static final  Asiento SEGURIDAD = new Asiento(new String("SEGURIDAD"), new String("Seguridad"), 30,30 ,30,24,30);
+    private static final  Asiento LECTURA = new Asiento(new String("LECTURA"), new String("Lectura"), 20,20 ,20,20,200);
+    private static final  Asiento SEGURIDAD = new Asiento(new String("SEGURIDAD"), new String("Seguridad"), 30,30 ,30,24,300);
 
     private ArrayList<String>  listaDePerfiles;
     private ArrayList<String>  listaDePerfilesBorrar;
@@ -79,7 +79,6 @@ public class AsientoActivity extends Activity implements
 
     private BroadcastReceiver mReceiver;
 
-    //clave de api maps AIzaSyCvkPcEnAI-uMAPrmZqrfp1G8s2xGgSY9c
 
 
     @Override
@@ -200,7 +199,7 @@ public class AsientoActivity extends Activity implements
 
         if (perfilesDeAsiento == null ){
             perfilesDeAsiento = new ArrayList<Asiento>();
-            this.asiento = new Asiento("", "Manual", 50,100,0,12,45);
+            this.asiento = new Asiento("", "Manual", 50,100,0,12,400);
             perfilesDeAsiento.add(asiento);
             perfilesDeAsiento.add(SEGURIDAD);
             perfilesDeAsiento.add(NOCHE);
@@ -437,7 +436,6 @@ public class AsientoActivity extends Activity implements
         dialogoAsistencia.setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(), "Sí, por favor", Toast.LENGTH_SHORT).show();
                 //Lo necesario para que se encienda un led
                 arduinoLed(true);
 
